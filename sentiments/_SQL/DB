@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `tbltasks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `articleid` bigint(20) NOT NULL,
   `tasktext` text NOT NULL,
+  `pushed` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `articleid` (`articleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;

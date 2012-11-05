@@ -6,9 +6,7 @@ class AllRSSFeeds {
 
 		$rssFeeds = array();
 
-		/*
 		$rssFeeds['News'] = 'http://finance.yahoo.com/news/;_ylt=A0LkuYICnpZQhQYAyAKhuYdG;_ylu=X3oDMTI0ZzNjZmE2BG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggVG9wIFN0b3JpZXMEcG9zAzYEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
-		// $rssFeeds['Videos'] = 'http://finance.yahoo.com/video/;_ylt=A0LkuYICnpZQhQYAywKhuYdG;_ylu=X3oDMTI0NmUwdW80BG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggVG9wIFN0b3JpZXMEcG9zAzkEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
 		$rssFeeds['Economy, Government & Policy'] = 'http://finance.yahoo.com/news/category-economy-govt-and-policy/rss;_ylt=A0LkuYICnpZQhQYAvAKhuYdG;_ylu=X3oDMTI1bHFtOWR2BG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggR2VuZXJhbCBOZXdzBHBvcwM2BHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['Legal / Law Matters'] = 'http://finance.yahoo.com/news/category-legal-matters/rss;_ylt=A0LkuYICnpZQhQYAvwKhuYdG;_ylu=X3oDMTI1M2x2OHNuBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggR2VuZXJhbCBOZXdzBHBvcwM5BHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['International'] = 'http://finance.yahoo.com/news/category-economy/rss;_ylt=A0LkuYICnpZQhQYAwgKhuYdG;_ylu=X3oDMTI2cnR0OGtvBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggR2VuZXJhbCBOZXdzBHBvcwMxMgRzZWMDTWVkaWFSU1NFZGl0b3JpYWw-;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
@@ -19,9 +17,7 @@ class AllRSSFeeds {
 		$rssFeeds['Mergers & Acquisitions'] = 'http://finance.yahoo.com/news/category-m-a/rss;_ylt=A0LkuYICnpZQhQYAeAKhuYdG;_ylu=X3oDMTJhdGw3NTdrBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggQ29tcGFueSBGaW5hbmNlcwRwb3MDMTgEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['Venture Capital'] = 'http://finance.yahoo.com/news/category-venture-capital/rss;_ylt=A0LkuYICnpZQhQYAewKhuYdG;_ylu=X3oDMTJhOTRzdDZjBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggQ29tcGFueSBGaW5hbmNlcwRwb3MDMjEEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['Personal Finance All'] = 'http://finance.yahoo.com/personal-finance/;_ylt=A0LkuYICnpZQhQYATgKhuYdG;_ylu=X3oDMTFnMjdvYXZmBG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwM2BHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss'; 
-		*/
-		// $rssFeeds['Real Estate'] = 'http://finance.yahoo.com/real-estate/;_ylt=A0LkuYICnpZQhQYAUQKhuYdG;_ylu=X3oDMTFnMXBldjE4BG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwM5BHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
-		/*
+		$rssFeeds['Real Estate'] = 'http://finance.yahoo.com/real-estate/;_ylt=A0LkuYICnpZQhQYAUQKhuYdG;_ylu=X3oDMTFnMXBldjE4BG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwM5BHNlYwNNZWRpYVJTU0VkaXRvcmlhbA--;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
 		$rssFeeds['Career & Education'] = 'http://finance.yahoo.com/career-education/;_ylt=A0LkuYICnpZQhQYAVAKhuYdG;_ylu=X3oDMTFoaWtmdGQ2BG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwMxMgRzZWMDTWVkaWFSU1NFZGl0b3JpYWw-;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
 		$rssFeeds['Retirement'] = 'http://finance.yahoo.com/retirement/;_ylt=A0LkuYICnpZQhQYAVwKhuYdG;_ylu=X3oDMTFoMWNwNGhvBG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwMxNQRzZWMDTWVkaWFSU1NFZGl0b3JpYWw-;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
 		$rssFeeds['Saving & Spending'] = 'http://finance.yahoo.com/saving-spending/;_ylt=A0LkuYICnpZQhQYAWgKhuYdG;_ylu=X3oDMTFoa3JnbGRhBG1pdANQRiBmb3IgUlNTIEluZGV4BHBvcwMxOARzZWMDTWVkaWFSU1NFZGl0b3JpYWw-;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3?format=rss';
@@ -102,7 +98,6 @@ class AllRSSFeeds {
 		$rssFeeds['Wall Street Transcript'] = 'http://finance.yahoo.com/news/provider-wall-street-transcript/rss;_ylt=A0LkuYICnpZQhQYAHAOhuYdG;_ylu=X3oDMTI0NWNlZWljBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggUHJvdmlkZXIgMgRwb3MDODEEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['Yahoo! Contributor Network'] = 'http://finance.yahoo.com/news/provider-yahoo-contributor-network/rss;_ylt=A0LkuYICnpZQhQYAHwOhuYdG;_ylu=X3oDMTI0MHU0aGFrBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggUHJvdmlkZXIgMgRwb3MDODQEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
 		$rssFeeds['Zacks'] = 'http://finance.yahoo.com/news/provider-zacks/rss;_ylt=A0LkuYICnpZQhQYAIgOhuYdG;_ylu=X3oDMTI0YXNzNmdwBG1pdANTdWJzY3JpYmUgYW5kIFNpdGUgSW5kZXggUHJvdmlkZXIgMgRwb3MDODcEc2VjA01lZGlhUlNTRWRpdG9yaWFs;_ylg=X3oDMTFzdHZoMTdhBGludGwDdXMEbGFuZwNlbi11cwRwc3RhaWQDBHBzdGNhdANuZXdzfHByb3ZpZGVycwRwdANzZWN0aW9ucw--;_ylv=3';
-		*/
 				
 		return $rssFeeds;
 	}
