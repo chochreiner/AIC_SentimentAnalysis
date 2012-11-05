@@ -64,7 +64,7 @@ class DATABASE_CONFIG {
 		'persistent' => false,
 		'host' => 'localhost',
 		'login' => 'cake',
-		'password' => 'mycakepassword',
+		'password' => 'thecakeisalie',
 		'database' => 'uni_aic_sentiments',
 		'prefix' => 'tbl',
 		//'encoding' => 'utf8',
