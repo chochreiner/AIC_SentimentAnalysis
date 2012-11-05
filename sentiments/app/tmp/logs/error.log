@@ -1,0 +1,16 @@
+2012-11-05 15:48:42 Error: Fatal Error (1): Call to a member function getAttribute() on a non-object in [/home/alex/webwork/sentiments/app/Controller/ArticlesController.php, line 90]
+2012-11-05 15:48:42 Error: [FatalErrorException] Call to a member function getAttribute() on a non-object
+#0 /home/alex/webwork/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/webw...', 90)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/webw...', 90, Array)
+#2 /home/alex/webwork/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/webw...', 90, Array)
+#3 /home/alex/webwork/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-05 16:29:35 Error: Fatal Error (1): Call to a member function getAttribute() on a non-object in [/home/alex/webwork/sentiments/app/Controller/ArticlesController.php, line 90]
+2012-11-05 16:29:35 Error: [FatalErrorException] Call to a member function getAttribute() on a non-object
+#0 /home/alex/webwork/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/webw...', 90)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/webw...', 90, Array)
+#2 /home/alex/webwork/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/webw...', 90, Array)
+#3 /home/alex/webwork/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
