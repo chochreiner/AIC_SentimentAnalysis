@@ -8,6 +8,15 @@ class ArticlesController extends AppController {
 	private static $TIME_INDEX = 3;
 	private static $CONTENT_INDEX = 4;
 
+	private static $PARAGRAPH_COUNT = 5;
+	
+	private static $ID_ASSOC = 'id';
+	private static $HEADLINE_ASSOC = 'headline';
+	private static $AUTHOR_ASSOC = 'author';
+	private static $TIME_ASSOC = 'time';
+	private static $CONTENT_ASSOC = 'content';
+	private static $COLUMN_ASSOC = 'column';
+	
 	// php script laedt ALLE artikel in die db
 	// RSSFeeds -> Von allen RSS Feeds alle Artikel laden
 	// pro RSS Feed
@@ -46,7 +55,7 @@ class ArticlesController extends AppController {
 					$this->Article->set('content', $article[self::$CONTENT_INDEX]);
 					$this->Article->set('column', $parsedFeed['title']);
 					$this->Article->save();
-					$this->chopArticlesIntoTasks($article);
+					$this->chopArticlesIntoTasks($article[self::$CONTENT_INDEX]);
 					$this->set('trigger', "new article has been added!");
 				}
 			}
@@ -56,16 +65,50 @@ class ArticlesController extends AppController {
 
 	}
 
-	private function chopArticlesIntoTasks() {
-		
-		$content = "";
-		
-		$dom_document->loadHTML($content);
-		
-		$allParagraphs = $dom_document->getElementsByTagName('p');
-		foreach($allParagraphs as $i => $para){
-			debug($para->nodeValue);
+	public function loadArticles() {
+		$this->loadModel('Article');
+		$allArticles = $this->Article->find('all');
+		foreach($allArticles as $articles) {
+			foreach($articles as $article) {
+				$this->chopArticlesIntoTasks($article[self::$ID_ASSOC], $article[self::$CONTENT_ASSOC]);
+				break;
+			}
+			break;
 		}
+	}
+	
+	private function chopArticlesIntoTasks($id, $article) {
+		
+		$this->loadModel('Task');
+		
+		$dom_document = new DOMDocument();
+		$dom_document->loadHTML($article);
+		$allParagraphs = $dom_document->getElementsByTagName('p');
+		$text = '';
+		$j = 0;
+		foreach($allParagraphs as $i => $para) {
+			if(trim($para->nodeValue) == '') {
+				continue;
+			}
+			$text .= '<p>' . $para->nodeValue . '</p>';
+			if($j % (self::$PARAGRAPH_COUNT) == 0) {
+				$this->Task->create();
+				$this->Task->set('articleid', $id);
+				$this->Task->set('tasktext', $text);
+				$this->Task->set('pushed', false);
+				$this->Task->save();
+				$text = '';
+			}
+			$j++;
+		}
+		if($text != '') {
+			$this->Task->create();
+			$this->Task->set('articleid', $id);
+			$this->Task->set('tasktext', $text);
+			$this->Task->set('pushed', false);
+			$this->Task->save();
+		}
+		
 	}
 	
 	private function parse($link) {

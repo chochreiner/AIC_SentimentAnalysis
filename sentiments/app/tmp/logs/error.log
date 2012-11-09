@@ -14,3 +14,66 @@
 #3 /home/alex/webwork/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
 #4 [internal function]: App::shutdown()
 #5 {main}
+2012-11-09 18:47:11 Error: [MissingViewException] View file "/home/alex/git/uni/aic/sentiments/app/View/Articles/load_articles.ctp" is missing.
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/View/View.php(473): View->_getViewFileName(NULL)
+#1 /home/alex/git/uni/aic/sentiments/lib/Cake/Controller/Controller.php(956): View->render(NULL, NULL)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Routing/Dispatcher.php(193): Controller->render()
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArticlesController), Object(CakeRequest), Object(CakeResponse))
+#4 /home/alex/git/uni/aic/sentiments/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#5 {main}
+2012-11-09 18:53:36 Error: Fatal Error (1): Call to a member function getElementsByTagName() on a non-object in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 70]
+2012-11-09 18:53:36 Error: [FatalErrorException] Call to a member function getElementsByTagName() on a non-object
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/git/...', 70)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/git/...', 70, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/git/...', 70, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 18:55:54 Error: Fatal Error (1): Call to a member function getElementsByTagName() on a non-object in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 76]
+2012-11-09 18:55:54 Error: [FatalErrorException] Call to a member function getElementsByTagName() on a non-object
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/git/...', 76)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/git/...', 76, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/git/...', 76, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 18:56:21 Error: Fatal Error (1): Call to a member function getElementsByTagName() on a non-object in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 76]
+2012-11-09 18:56:21 Error: [FatalErrorException] Call to a member function getElementsByTagName() on a non-object
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/git/...', 76)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/git/...', 76, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/git/...', 76, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 18:56:30 Error: Fatal Error (1): Cannot break/continue 1 level in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 69]
+2012-11-09 18:56:30 Error: [FatalErrorException] Cannot break/continue 1 level
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Cannot break/co...', '/home/alex/git/...', 69)
+#1 [internal function]: ErrorHandler::handleError(1, 'Cannot break/co...', '/home/alex/git/...', 69, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Cannot break/co...', '/home/alex/git/...', 69, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 18:57:16 Error: Fatal Error (1): Cannot break/continue 1 level in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 71]
+2012-11-09 18:57:16 Error: [FatalErrorException] Cannot break/continue 1 level
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Cannot break/co...', '/home/alex/git/...', 71)
+#1 [internal function]: ErrorHandler::handleError(1, 'Cannot break/co...', '/home/alex/git/...', 71, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Cannot break/co...', '/home/alex/git/...', 71, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 18:59:42 Error: Fatal Error (1): Call to a member function getElementsByTagName() on a non-object in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 78]
+2012-11-09 18:59:42 Error: [FatalErrorException] Call to a member function getElementsByTagName() on a non-object
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Call to a membe...', '/home/alex/git/...', 78)
+#1 [internal function]: ErrorHandler::handleError(1, 'Call to a membe...', '/home/alex/git/...', 78, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Call to a membe...', '/home/alex/git/...', 78, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
+2012-11-09 19:17:13 Error: Fatal Error (1): Access to undeclared static property: ArticlesController::$PARGRAPH_COUNT in [/home/alex/git/uni/aic/sentiments/app/Controller/ArticlesController.php, line 90]
+2012-11-09 19:17:13 Error: [FatalErrorException] Access to undeclared static property: ArticlesController::$PARGRAPH_COUNT
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Error/ErrorHandler.php(161): ErrorHandler::handleFatalError(1, 'Access to undec...', '/home/alex/git/...', 90)
+#1 [internal function]: ErrorHandler::handleError(1, 'Access to undec...', '/home/alex/git/...', 90, Array)
+#2 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(926): call_user_func('ErrorHandler::h...', 1, 'Access to undec...', '/home/alex/git/...', 90, Array)
+#3 /home/alex/git/uni/aic/sentiments/lib/Cake/Core/App.php(899): App::_checkFatalError()
+#4 [internal function]: App::shutdown()
+#5 {main}
