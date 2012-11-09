@@ -9,14 +9,14 @@ class ArticlesController extends AppController {
 	private static $CONTENT_INDEX = 4;
 
 	private static $PARAGRAPH_COUNT = 5;
-	
+
 	private static $ID_ASSOC = 'id';
 	private static $HEADLINE_ASSOC = 'headline';
 	private static $AUTHOR_ASSOC = 'author';
 	private static $TIME_ASSOC = 'time';
 	private static $CONTENT_ASSOC = 'content';
 	private static $COLUMN_ASSOC = 'column';
-	
+
 	// php script laedt ALLE artikel in die db
 	// RSSFeeds -> Von allen RSS Feeds alle Artikel laden
 	// pro RSS Feed
@@ -65,52 +65,91 @@ class ArticlesController extends AppController {
 
 	}
 
-	public function loadArticles() {
+	/**
+	 * Pushes them tasks to MW.
+	 */
+	public function pushTasksToMW() {
+
+		App::uses('MobileWorks', 'Lib');
+		$this->loadModel('ArticleTask');
+		$allTasks = $this->ArticleTask->find('all');
+		$mw = new MobileWorks(); // provide your username/password
+		$mw->username = 'hochi';
+		$mw->password = 'hochi';
+		$mw->sandbox();
+
+		foreach($allTasks as $tasks) {
+			foreach($tasks as $task) {
+				$t = $mw->Task(array("instructions" => "How is the company mentioned in these paragraphs?"));
+				$t->set_param("resource", $task['tasktext']); // add the required fields
+				$t->add_field("Name", "t"); // finally, post it and get the url of the newly created task
+				$found = $this->ArticleTask->find('first', array('conditions' => array('id' => $task[self::$ID_ASSOC])));
+				if($found['ArticleTask']['taskurl'] != "") {
+					continue;
+				}
+				$task_url = $t->post();
+				$this->ArticleTask->set('id', $found['ArticleTask']['id']);
+				$this->ArticleTask->set('taskurl', $task_url);
+				$this->ArticleTask->save();
+			}
+		}
+		
+
+	}
+
+	/**
+	 * Splits the big fat articles into small tiny tasks.
+	 */
+	public function createTasks() {
 		$this->loadModel('Article');
 		$allArticles = $this->Article->find('all');
 		foreach($allArticles as $articles) {
 			foreach($articles as $article) {
 				$this->chopArticlesIntoTasks($article[self::$ID_ASSOC], $article[self::$CONTENT_ASSOC]);
-				break;
 			}
-			break;
 		}
+		$this->set("text", "Done.");
 	}
-	
+
 	private function chopArticlesIntoTasks($id, $article) {
-		
-		$this->loadModel('Task');
-		
+
+		$this->loadModel('ArticleTask');
+
 		$dom_document = new DOMDocument();
 		$dom_document->loadHTML($article);
 		$allParagraphs = $dom_document->getElementsByTagName('p');
 		$text = '';
 		$j = 0;
+		if($this->ArticleTask->find('count', array('conditions' => array('id' => $id))) > 0) {
+			return;
+		}
 		foreach($allParagraphs as $i => $para) {
 			if(trim($para->nodeValue) == '') {
 				continue;
 			}
 			$text .= '<p>' . $para->nodeValue . '</p>';
 			if($j % (self::$PARAGRAPH_COUNT) == 0) {
-				$this->Task->create();
-				$this->Task->set('articleid', $id);
-				$this->Task->set('tasktext', $text);
-				$this->Task->set('pushed', false);
-				$this->Task->save();
+				$this->ArticleTask->create();
+				$this->ArticleTask->set('articleid', $id);
+				$this->ArticleTask->set('tasktext', $text);
+				$this->ArticleTask->set('pushed', false);
+				$this->ArticleTask->set('taskurl', null);
+				$this->ArticleTask->save();
 				$text = '';
 			}
 			$j++;
 		}
 		if($text != '') {
-			$this->Task->create();
-			$this->Task->set('articleid', $id);
-			$this->Task->set('tasktext', $text);
-			$this->Task->set('pushed', false);
-			$this->Task->save();
+			$this->ArticleTask->create();
+			$this->ArticleTask->set('articleid', $id);
+			$this->ArticleTask->set('tasktext', $text);
+			$this->ArticleTask->set('pushed', false);
+			$this->ArticleTask->set('taskurl', null);
+			$this->ArticleTask->save();
 		}
-		
+
 	}
-	
+
 	private function parse($link) {
 		$htmlsrc = file_get_contents($link);
 		$dom_document = new DOMDocument();
@@ -130,7 +169,7 @@ class ArticlesController extends AppController {
 			echo "Konnte den Link: " . $link . " nicht lesen.";
 			echo "</pre>";
 		}
-		
+
 		if(!$headlineDOM || is_object($headlineDOM) && !is_null($headlineDOM)) {
 			$headline = $headlineDOM->item(0)->nodeValue;
 		} else {
@@ -138,7 +177,7 @@ class ArticlesController extends AppController {
 			print_r($headlineDOM);
 			echo "</pre>";
 		}
-		
+
 		if(!$authorDOM || is_object($authorDOM) && !is_null($authorDOM)) {
 			$author = $authorDOM->item(0)->nodeValue;
 		} else {
@@ -146,7 +185,7 @@ class ArticlesController extends AppController {
 			print_r($authorDOM);
 			echo "</pre>";
 		}
-		
+
 		if(!$timeDOM || is_object($timeDOM) && !is_null($timeDOM)) {
 			$time = $timeDOM->item(0)->getAttribute("title");
 		} else {
@@ -154,7 +193,7 @@ class ArticlesController extends AppController {
 			print_r($timeDOM);
 			echo "</pre>";
 		}
-		
+
 		if(!$contentDOM || is_object($contentDOM) && !is_null($contentDOM)) {
 			$content = $dom_document->saveXML($contentDOM->item(0));
 		} else {

@@ -1,5 +1,7 @@
 <?php
-class Dictionary extends AppModel {
+class Company extends AppModel {
 
+	var $useTable = "companies";
+	
 }
 ?>
