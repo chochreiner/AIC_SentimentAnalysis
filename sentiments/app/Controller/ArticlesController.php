@@ -32,7 +32,6 @@ class ArticlesController extends AppController {
 			foreach ($parsedFeed['items'] as $rawArticle) {
 				$article = $this->parse($rawArticle['link']);
 				if ($article == null || !is_array($article)) {
-					// TODO: log this
 					continue;
 				}
 				$this->set('articles', $article);
@@ -47,6 +46,7 @@ class ArticlesController extends AppController {
 					$this->Article->set('content', $article[self::$CONTENT_INDEX]);
 					$this->Article->set('column', $parsedFeed['title']);
 					$this->Article->save();
+					$this->chopArticlesIntoTasks($article);
 					$this->set('trigger', "new article has been added!");
 				}
 			}
@@ -56,6 +56,18 @@ class ArticlesController extends AppController {
 
 	}
 
+	private function chopArticlesIntoTasks() {
+		
+		$content = "";
+		
+		$dom_document->loadHTML($content);
+		
+		$allParagraphs = $dom_document->getElementsByTagName('p');
+		foreach($allParagraphs as $i => $para){
+			debug($para->nodeValue);
+		}
+	}
+	
 	private function parse($link) {
 		$htmlsrc = file_get_contents($link);
 		$dom_document = new DOMDocument();
