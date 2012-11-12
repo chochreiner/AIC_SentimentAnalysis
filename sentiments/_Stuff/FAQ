@@ -11,7 +11,7 @@ Anmerkungen: Die "wie setze ich den Apache auf" sind aus Sicht von Ubuntu/Debian
 1. Sicherstellen, dass Apache, PHP, MySQL vorhanden sind, wenn nicht installieren!
 	a. Windows: XAMPP
 	b. Deb/Ubu/... Linux: 
-		apt-get install apache2 && apt-get install mysql-server && apt-get install phpmyadmin
+		apt-get install apache2 mysql-server phpmyadmin
 	c. OSX: uff.. sorry, nie verwendet :) mWn gibt's XAMPP eh auch dafuer
 2. Checkoute das Projekt
 	a. Lege einen vhost an.
