@@ -22,12 +22,18 @@ Nicht vergessen, legt eine DB mit dem Namen:
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Nov 05, 2012 at 06:04 PM
+-- Generation Time: Nov 12, 2012 at 09:07 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `uni_aic_sentiments`
@@ -47,19 +53,36 @@ CREATE TABLE IF NOT EXISTS `tblarticles` (
   `content` text NOT NULL,
   `column` varchar(100) NOT NULL DEFAULT 'Unknown',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=583 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=670 ;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tbltasks`
+-- Table structure for table `tblarticletasks`
 --
 
-CREATE TABLE IF NOT EXISTS `tbltasks` (
+CREATE TABLE IF NOT EXISTS `tblarticletasks` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `articleid` bigint(20) NOT NULL,
   `tasktext` text NOT NULL,
+  `taskurl` varchar(255) DEFAULT NULL,
   `pushed` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `articleid` (`articleid`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tblcompanies`
+--
+
+CREATE TABLE IF NOT EXISTS `tblcompanies` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `company` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -154,3 +154,8 @@
 #9 /home/alex/git/uni/aic/sentiments/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArticlesController), Object(CakeRequest), Object(CakeResponse))
 #10 /home/alex/git/uni/aic/sentiments/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
 #11 {main}
+2012-11-12 21:56:09 Error: [MissingActionException] Action ArticlesController::loadArticles() could not be found.
+#0 /home/alex/git/uni/aic/sentiments/lib/Cake/Routing/Dispatcher.php(186): Controller->invokeAction(Object(CakeRequest))
+#1 /home/alex/git/uni/aic/sentiments/lib/Cake/Routing/Dispatcher.php(161): Dispatcher->_invoke(Object(ArticlesController), Object(CakeRequest), Object(CakeResponse))
+#2 /home/alex/git/uni/aic/sentiments/app/webroot/index.php(92): Dispatcher->dispatch(Object(CakeRequest), Object(CakeResponse))
+#3 {main}
