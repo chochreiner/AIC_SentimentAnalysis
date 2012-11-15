@@ -27,6 +27,8 @@ class ArticlesController extends AppController {
 	// do until alle rss feeds durch
 	public function grabArticles() {
 
+		echo 'hai'; 
+		
 		App::uses('AllRSSFeeds', 'Lib');
 		App::uses('LastRSS', 'Lib');
 
@@ -55,7 +57,7 @@ class ArticlesController extends AppController {
 					$this->Article->set('content', $article[self::$CONTENT_INDEX]);
 					$this->Article->set('column', $parsedFeed['title']);
 					$this->Article->save();
-					$this->chopArticlesIntoTasks($article[self::$CONTENT_INDEX]);
+					$this->chopArticlesIntoTasks($this->Article->id, $article[self::$CONTENT_INDEX]);
 					$this->set('trigger', "new article has been added!");
 				}
 			}
@@ -116,7 +118,7 @@ class ArticlesController extends AppController {
 		$this->loadModel('ArticleTask');
 
 		$dom_document = new DOMDocument();
-		$dom_document->loadHTML($article);
+		@$dom_document->loadHTML($article);
 		$allParagraphs = $dom_document->getElementsByTagName('p');
 		$text = '';
 		$j = 0;
@@ -159,47 +161,93 @@ class ArticlesController extends AppController {
 		//use DOMXpath to navigate the html with the DOM
 		$dom_xpath = new DOMXpath($dom_document);
 
+		if(!strstr($link, "http://finance.yahoo.com")){
+			return;
+		}
+		
 		$headlineDOM = $dom_xpath->query("//h1[contains(concat(' ',normalize-space(@class),' '),' headline ')]");
 		$authorDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' bd ')]/cite/span");
-		$timeDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' bd ')]/cite/abbr");
+// 		$timeDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' bd ')]/cite/abbr");
+		$timeDOM = $dom_xpath->query("//cite/abbr");
 		$contentDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' yom-mod yom-art-content ')]");
 
+		
 		if(!$headlineDOM || !$authorDOM || !$timeDOM || !$contentDOM) {
-			echo "<pre>";
-			echo "Konnte den Link: " . $link . " nicht lesen.";
-			echo "</pre>";
+// 			echo "<pre>";
+// 			echo "Konnte den Link: " . $link . " nicht lesen.";
+// 			echo "</pre>";
+			return null;
 		}
 
-		if(!$headlineDOM || is_object($headlineDOM) && !is_null($headlineDOM)) {
-			$headline = $headlineDOM->item(0)->nodeValue;
+		if(!$headlineDOM ||  ($headlineDOM instanceof DOMNodeList) && !is_null($headlineDOM)) {
+			if(!is_null($headlineDOM ->item(0)) && is_object($headlineDOM->item(0))){
+				$headline = $headlineDOM->item(0)->nodeValue;
+			}else{
+// 				echo "<pre>";
+// 				print_r($headlineDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return null;
+			}
 		} else {
-			echo "<pre>";
-			print_r($headlineDOM);
-			echo "</pre>";
+// 			echo "<pre>";
+// 			print_r($headlineDOM);
+// 			echo "</pre>";
+			return null;
 		}
 
-		if(!$authorDOM || is_object($authorDOM) && !is_null($authorDOM)) {
-			$author = $authorDOM->item(0)->nodeValue;
+		if(!$authorDOM || ($authorDOM instanceof DOMNodeList) && !is_null($authorDOM)) {
+			if(!is_null($authorDOM ->item(0)) && is_object($authorDOM->item(0))){
+				$author = $authorDOM->item(0)->nodeValue;
+			}else{
+// 				echo "<pre>";
+// 				print_r($authorDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;		
+				return null;
+			}
+			
 		} else {
-			echo "<pre>";
-			print_r($authorDOM);
-			echo "</pre>";
+// 			echo "<pre>";
+// 			print_r($authorDOM);
+// 			echo "</pre>";
+			return null;
 		}
 
-		if(!$timeDOM || is_object($timeDOM) && !is_null($timeDOM)) {
-			$time = $timeDOM->item(0)->getAttribute("title");
+		if(!$timeDOM || ($timeDOM instanceof DOMNodeList) && !is_null($timeDOM)) {
+
+			if(!is_null($timeDOM ->item(0)) && is_object($timeDOM->item(0))){
+				$time = $timeDOM->item(0)->getAttribute("title");
+			}else{
+// 				echo "<pre>";
+// 				print_r($timeDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return null;
+			}
+			
 		} else {
-			echo "<pre>";
-			print_r($timeDOM);
-			echo "</pre>";
+// 			echo "<pre>";
+// 			print_r($timeDOM);
+// 			echo "</pre>";
+			return null;
 		}
 
-		if(!$contentDOM || is_object($contentDOM) && !is_null($contentDOM)) {
-			$content = $dom_document->saveXML($contentDOM->item(0));
+		if(!$contentDOM || ($contentDOM instanceof DOMNodeList) && !is_null($contentDOM)) {
+			if(!is_null($contentDOM ->item(0)) && is_object($contentDOM->item(0))){
+				$content = $dom_document->saveXML($contentDOM->item(0));
+			}else{
+// 				echo "<pre>";
+// 				print_r($contentDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return null;
+			}
 		} else {
-			echo "<pre>";
-			print_r($contentDOM);
-			echo "</pre>";
+// 			echo "<pre>";
+// 			print_r($contentDOM);
+// 			echo "</pre>";
+			return null;
 		}
 
 		$result = array();
