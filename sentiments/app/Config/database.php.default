@@ -68,6 +68,7 @@ class DATABASE_CONFIG {
 		'database' => 'uni_aic_sentiments',
 		'prefix' => 'tbl',
 		//'encoding' => 'utf8',
+		// Uncomment this for Mac OS MAMP-support: 'unix_socket' => '/Applications/MAMP/tmp/mysql/mysql.sock'
 	);
 
 	/*
