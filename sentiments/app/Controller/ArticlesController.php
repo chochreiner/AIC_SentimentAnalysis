@@ -26,9 +26,6 @@ class ArticlesController extends AppController {
 	// otherwise skip
 	// do until alle rss feeds durch
 	public function grabArticles() {
-
-		echo 'hai'; 
-		
 		App::uses('AllRSSFeeds', 'Lib');
 		App::uses('LastRSS', 'Lib');
 
