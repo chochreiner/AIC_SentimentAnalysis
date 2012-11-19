@@ -7,8 +7,11 @@
 			<th><?php echo $this->Paginator->sort('title'); ?></th>
 			<th><?php echo $this->Paginator->sort('publish_date'); ?></th>
 			<th><?php echo $this->Paginator->sort('link'); ?></th>
+			<th><?php echo $this->Paginator->sort('guid'); ?></th>
+			<th><?php echo $this->Paginator->sort('source'); ?></th>
 			<th><?php echo $this->Paginator->sort('content'); ?></th>
 			<th><?php echo $this->Paginator->sort('channel'); ?></th>
+			<th><?php echo $this->Paginator->sort('evaluated'); ?></th>
 			<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -19,8 +22,11 @@
 		<td><?php echo h($article['Article']['title']); ?>&nbsp;</td>
 		<td><?php echo h($article['Article']['publish_date']); ?>&nbsp;</td>
 		<td><?php echo h($article['Article']['link']); ?>&nbsp;</td>
+		<td><?php echo h($article['Article']['guid']); ?>&nbsp;</td>
+		<td><?php echo h($article['Article']['source']); ?>&nbsp;</td>
 		<td><?php echo h($article['Article']['content']); ?>&nbsp;</td>
 		<td><?php echo h($article['Article']['channel']); ?>&nbsp;</td>
+		<td><?php echo h($article['Article']['evaluated']); ?>&nbsp;</td>
 		<td class="actions">
 			<?php echo $this->Html->link(__('View'), array('action' => 'view', $article['Article']['id'])); ?>
 			<?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $article['Article']['id'])); ?>

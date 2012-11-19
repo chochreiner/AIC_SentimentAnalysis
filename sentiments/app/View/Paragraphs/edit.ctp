@@ -7,6 +7,7 @@
 		echo $this->Form->input('article_id');
 		echo $this->Form->input('position');
 		echo $this->Form->input('text');
+		echo $this->Form->input('evaluated');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

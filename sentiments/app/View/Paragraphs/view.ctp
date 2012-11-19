@@ -8,7 +8,7 @@
 		</dd>
 		<dt><?php echo __('Article'); ?></dt>
 		<dd>
-			<?php echo $this->Html->link($paragraph['Article']['id'], array('controller' => 'articles', 'action' => 'view', $paragraph['Article']['id'])); ?>
+			<?php echo $this->Html->link($paragraph['Article']['title'], array('controller' => 'articles', 'action' => 'view', $paragraph['Article']['id'])); ?>
 			&nbsp;
 		</dd>
 		<dt><?php echo __('Position'); ?></dt>
@@ -19,6 +19,11 @@
 		<dt><?php echo __('Text'); ?></dt>
 		<dd>
 			<?php echo h($paragraph['Paragraph']['text']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Evaluated'); ?></dt>
+		<dd>
+			<?php echo h($paragraph['Paragraph']['evaluated']); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -44,8 +49,10 @@
 		<th><?php echo __('Id'); ?></th>
 		<th><?php echo __('Paragraph Id'); ?></th>
 		<th><?php echo __('Brand Id'); ?></th>
+		<th><?php echo __('Question'); ?></th>
+		<th><?php echo __('Task Url'); ?></th>
+		<th><?php echo __('Type'); ?></th>
 		<th><?php echo __('Rating'); ?></th>
-		<th><?php echo __('Please Mobile Works Metadata Fields'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -55,8 +62,10 @@
 			<td><?php echo $evaluation['id']; ?></td>
 			<td><?php echo $evaluation['paragraph_id']; ?></td>
 			<td><?php echo $evaluation['brand_id']; ?></td>
+			<td><?php echo $evaluation['question']; ?></td>
+			<td><?php echo $evaluation['task_url']; ?></td>
+			<td><?php echo $evaluation['type']; ?></td>
 			<td><?php echo $evaluation['rating']; ?></td>
-			<td><?php echo $evaluation['please_mobile_works_metadata_fields']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'evaluations', 'action' => 'view', $evaluation['id'])); ?>
 				<?php echo $this->Html->link(__('Edit'), array('controller' => 'evaluations', 'action' => 'edit', $evaluation['id'])); ?>

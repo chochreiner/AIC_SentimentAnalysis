@@ -26,6 +26,16 @@
 			<?php echo h($article['Article']['link']); ?>
 			&nbsp;
 		</dd>
+		<dt><?php echo __('Guid'); ?></dt>
+		<dd>
+			<?php echo h($article['Article']['guid']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Source'); ?></dt>
+		<dd>
+			<?php echo h($article['Article']['source']); ?>
+			&nbsp;
+		</dd>
 		<dt><?php echo __('Content'); ?></dt>
 		<dd>
 			<?php echo h($article['Article']['content']); ?>
@@ -34,6 +44,11 @@
 		<dt><?php echo __('Channel'); ?></dt>
 		<dd>
 			<?php echo h($article['Article']['channel']); ?>
+			&nbsp;
+		</dd>
+		<dt><?php echo __('Evaluated'); ?></dt>
+		<dd>
+			<?php echo h($article['Article']['evaluated']); ?>
 			&nbsp;
 		</dd>
 	</dl>
@@ -58,6 +73,7 @@
 		<th><?php echo __('Article Id'); ?></th>
 		<th><?php echo __('Position'); ?></th>
 		<th><?php echo __('Text'); ?></th>
+		<th><?php echo __('Evaluated'); ?></th>
 		<th class="actions"><?php echo __('Actions'); ?></th>
 	</tr>
 	<?php
@@ -68,6 +84,7 @@
 			<td><?php echo $paragraph['article_id']; ?></td>
 			<td><?php echo $paragraph['position']; ?></td>
 			<td><?php echo $paragraph['text']; ?></td>
+			<td><?php echo $paragraph['evaluated']; ?></td>
 			<td class="actions">
 				<?php echo $this->Html->link(__('View'), array('controller' => 'paragraphs', 'action' => 'view', $paragraph['id'])); ?>
 				<?php echo $this->Html->link(__('Edit'), array('controller' => 'paragraphs', 'action' => 'edit', $paragraph['id'])); ?>

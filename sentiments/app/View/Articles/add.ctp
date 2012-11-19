@@ -7,8 +7,11 @@
 		echo $this->Form->input('title');
 		echo $this->Form->input('publish_date');
 		echo $this->Form->input('link');
+		echo $this->Form->input('guid');
+		echo $this->Form->input('source');
 		echo $this->Form->input('content');
 		echo $this->Form->input('channel');
+		echo $this->Form->input('evaluated');
 	?>
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>

@@ -15,7 +15,7 @@
 	<tr>
 		<td><?php echo h($brand['Brand']['id']); ?>&nbsp;</td>
 		<td>
-			<?php echo $this->Html->link($brand['Company']['id'], array('controller' => 'companies', 'action' => 'view', $brand['Company']['id'])); ?>
+			<?php echo $this->Html->link($brand['Company']['name'], array('controller' => 'companies', 'action' => 'view', $brand['Company']['id'])); ?>
 		</td>
 		<td><?php echo h($brand['Brand']['name']); ?>&nbsp;</td>
 		<td><?php echo h($brand['Brand']['search_names']); ?>&nbsp;</td>
@@ -52,5 +52,7 @@
 		<li><?php echo $this->Html->link(__('New Company'), array('controller' => 'companies', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Paragraphs'), array('controller' => 'paragraphs', 'action' => 'index')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Paragraph'), array('controller' => 'paragraphs', 'action' => 'add')); ?> </li>
 	</ul>
 </div>
