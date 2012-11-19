@@ -73,4 +73,25 @@ class Evaluation extends AppModel {
 			'order' => ''
 		)
 	);
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+	public $hasMany = array(
+		'EvaluationResult' => array(
+			'className' => 'EvaluationResult',
+			'foreignKey' => 'evaluation_id',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'exclusive' => '',
+			'finderQuery' => '',
+			'counterQuery' => ''
+		)
+	);
+
 }
