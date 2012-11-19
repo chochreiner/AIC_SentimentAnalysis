@@ -141,7 +141,9 @@ class ArticlesController extends AppController {
 						)));
 					
 					$log .= '<p>Creating new MobileWorks Task for question: '.
-							'Is this article mainly about '.$brandData['name'].'?'.'</p>';
+							'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">'.
+							'Is this article mainly about '.$brandData['name'].'?'.
+							'</a></p>';
 					$this->Article->Paragraph->Evaluation->pushTask($mw);
 
 					// keep track of handled brands

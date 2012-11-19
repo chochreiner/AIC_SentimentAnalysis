@@ -7,6 +7,28 @@ App::uses('AppController', 'Controller');
  */
 class EvaluationsController extends AppController {
 
+
+/**
+ * MobileWorks doesn't allow direct sending of the evaluatable 
+ * content, instead we must provide it as a url. So here it is!
+ * 
+ * @param  Integer $id Evaluation id
+ * @return void
+ */
+	public function showTaskResource($id=null) {
+		$this->Evaluation->id = $id;
+		if (!$this->Evaluation->exists()) {
+			throw new NotFoundException(__('Invalid evaluation'));
+		}
+
+		$this->Evaluation->recursive = 2; // also load the article record
+		$this->set('evaluation', $this->Evaluation->read(null, $id));
+
+		$this->layout = 'plain';
+	}
+
+
+
 /**
  * index method
  *

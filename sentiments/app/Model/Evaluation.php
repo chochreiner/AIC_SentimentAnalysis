@@ -20,30 +20,27 @@ class Evaluation extends AppModel {
  * @return void
  */
 	public function pushTask($mobileWorksApi) {
-		$this->recursive = 2; // also load teh associated article
-		$this->read(null,$this->id);
+		$this->read(null, $this->id);
 
-		// build resource
-		switch($this->data['Evaluation']['type']) {
-			case 'articletopic':
-				$resource = 
-					'<h1>' . $this->data['Paragraph']['Article']['title'] . '</h1><p>' .
-					$this->data['Paragraph']['text'] . '</p>';
-				break;
-			case 'titlesentiment':
-				$resource = $this->data['Paragraph']['Article']['title'];
-				break;
-			case 'paragraphsentiment':
-				$resource = $this->data['Paragraph']['text'];
-				break;
-		}
-
-		// push the task
+		// create the task
 		$t = $mobileWorksApi->Task(array(
+			'taskid'       => $this->data['Evaluation']['id'],
 			'instructions' => $this->data['Evaluation']['question'],
-			'resource'	   => $resource
+			'resource'	   => '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
+			'resourcetype' => 't',
+			'workflow'     => 'm',
+			//'payment'      => X @todo implement for Stage 2
+			// Add user blocking optiosn https://www.mobileworks.com/developers/parameters/#blocked and below
 			));
-		$t->add_field("Name", "t");
+
+		// build choices
+		if($this->data['Evaluation']['type'] == 'articletopic') {
+			$t->add_field('result', 'm', array("choices"=>"Yes,No"));
+		} else { // titlesentiment or paragraphsentiment
+			$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+		}
+		
+		// push the task
 		$task_url = $t->post();
 
 		// add the task url to the evaluation record
