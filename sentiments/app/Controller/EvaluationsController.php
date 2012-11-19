@@ -28,6 +28,14 @@ class EvaluationsController extends AppController {
 	}
 
 
+/**
+ * This is triggered by MobileWorks when we have results
+ */
+	public function returnResult($id) {
+		// @todo implement this, see also the model Evaluation::pushTask
+
+		exit(1);
+	}
 
 /**
  * index method

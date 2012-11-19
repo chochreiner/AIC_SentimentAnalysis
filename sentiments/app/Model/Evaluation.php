@@ -14,7 +14,7 @@ class Evaluation extends AppModel {
  * Pushes a given task to MobileWorks. The resource is set according
  * to the evalution type.
  * 
- * Expects the evaluation be be the current active record.
+ * Expects the evaluation id to be the current active record id.
  * 
  * @param  MobileWorks $mobileWorksApi  A configured mobileWorksApi
  * @return void
@@ -22,29 +22,41 @@ class Evaluation extends AppModel {
 	public function pushTask($mobileWorksApi) {
 		$this->read(null, $this->id);
 
-		// create the task
-		$t = $mobileWorksApi->Task(array(
-			'taskid'       => $this->data['Evaluation']['id'],
-			'instructions' => $this->data['Evaluation']['question'],
-			'resource'	   => '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
-			'resourcetype' => 't',
-			'workflow'     => 'm',
-			//'payment'      => X @todo implement for Stage 2
-			// Add user blocking optiosn https://www.mobileworks.com/developers/parameters/#blocked and below
+		// create a project (to get an instant callback, we need a new project for every task)
+		$p = $mobileWorksApi->Project(array(
+			'projectid' => $this->data['Evaluation']['id'],
+			'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
+			//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
 			));
 
-		// build choices
-		if($this->data['Evaluation']['type'] == 'articletopic') {
-			$t->add_field('result', 'm', array("choices"=>"Yes,No"));
-		} else { // titlesentiment or paragraphsentiment
-			$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+		// create the tasks
+		for($i=0; $i<3; $i++) {
+			$t = $mobileWorksApi->Task(array(
+				'taskid'       => $this->data['Evaluation']['id']. '-' . $i,
+				'instructions' => $this->data['Evaluation']['question'],
+				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
+				'resourcetype' => 't',
+				'workflow'     => 'm',
+				//'payment'      => X @todo implement for Stage 2
+				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
+				));
+
+			// build choices
+			if($this->data['Evaluation']['type'] == 'articletopic') {
+				$t->add_field('result', 'm', array("choices"=>"Yes,No"));
+			} else { // titlesentiment or paragraphsentiment
+				$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+			}
+
+			// add to project
+			$p->add_task($t);
 		}
-		
-		// push the task
-		$task_url = $t->post();
+
+		// push the project
+		$project_url = $p->post();
 
 		// add the task url to the evaluation record
-		$this->saveField('task_url', $task_url);
+		$this->saveField('task_url', $project_url);
 	}
 
 
