@@ -16,6 +16,151 @@ class Article extends AppModel {
 
 
 
+
+/**
+ * Checks if the given guid is already in the database.
+ * 
+ * @return Boolean True if it already exists
+ */
+	public function guidExists($guid) {
+		return $this->find('count', array(
+			'conditions' => array(
+				'guid' => $guid
+			))) > 0;
+	}
+
+
+/**
+ * Parses an article on Yahoo and creates
+ * a new article record for the given data.
+ *
+ * Will return false if the data was inconclusive
+ * 
+ * @param  String $data The feed data, containing a link path to the html data,
+ *                      a guid, title and optionally a source
+ * @return Boolean      True if everything worked
+ */
+	public function parse($data) {
+		$link = $data['link'];
+		$htmlsrc = file_get_contents($link);
+		$dom_document = new DOMDocument();
+		$dom_document->strictErrorChecking = false;
+		@$dom_document->loadHTML($htmlsrc);
+
+		//use DOMXpath to navigate the html with the DOM
+		$dom_xpath = new DOMXpath($dom_document);
+
+		if(!strstr($link, "http://finance.yahoo.com")) { // <-- security check
+			return;
+		}
+		
+		$headlineDOM = $dom_xpath->query("//h1[contains(concat(' ',normalize-space(@class),' '),' headline ')]");
+		$authorDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' bd ')]/cite/span");
+// 		$timeDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' bd ')]/cite/abbr");
+		$timeDOM = $dom_xpath->query("//cite/abbr");
+		$contentDOM = $dom_xpath->query("//div[contains(concat(' ',normalize-space(@class),' '),' yom-mod yom-art-content ')]");
+
+		
+		if(!$headlineDOM || !$authorDOM || !$timeDOM || !$contentDOM) {
+// 			echo "<pre>";
+// 			echo "Konnte den Link: " . $link . " nicht lesen.";
+// 			echo "</pre>";
+			return false;
+		}
+
+		/** read the title directly from the feed
+		if(!$headlineDOM ||  ($headlineDOM instanceof DOMNodeList) && !is_null($headlineDOM)) {
+			if(!is_null($headlineDOM ->item(0)) && is_object($headlineDOM->item(0))){
+				$headline = $headlineDOM->item(0)->nodeValue;
+			}else{
+// 				echo "<pre>";
+// 				print_r($headlineDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return false;
+			}
+		} else {
+// 			echo "<pre>";
+// 			print_r($headlineDOM);
+// 			echo "</pre>";
+			return false;
+		}
+		 */
+
+		if(!$authorDOM || ($authorDOM instanceof DOMNodeList) && !is_null($authorDOM)) {
+			if(!is_null($authorDOM ->item(0)) && is_object($authorDOM->item(0))){
+				$author = $authorDOM->item(0)->nodeValue;
+			}else{
+// 				echo "<pre>";
+// 				print_r($authorDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;		
+				return false;
+			}
+			
+		} else {
+// 			echo "<pre>";
+// 			print_r($authorDOM);
+// 			echo "</pre>";
+			return false;
+		}
+
+		if(!$timeDOM || ($timeDOM instanceof DOMNodeList) && !is_null($timeDOM)) {
+
+			if(!is_null($timeDOM ->item(0)) && is_object($timeDOM->item(0))){
+				$time = $timeDOM->item(0)->getAttribute("title");
+			}else{
+// 				echo "<pre>";
+// 				print_r($timeDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return false;
+			}
+			
+		} else {
+// 			echo "<pre>";
+// 			print_r($timeDOM);
+// 			echo "</pre>";
+			return false;
+		}
+
+		if(!$contentDOM || ($contentDOM instanceof DOMNodeList) && !is_null($contentDOM)) {
+			if(!is_null($contentDOM ->item(0)) && is_object($contentDOM->item(0))){
+				$content = $dom_document->saveXML($contentDOM->item(0));
+			}else{
+// 				echo "<pre>";
+// 				print_r($contentDOM);
+// 				echo "</pre>";
+// 				echo "DAFUQ " . $link;
+				return false;
+			}
+		} else {
+// 			echo "<pre>";
+// 			print_r($contentDOM);
+// 			echo "</pre>";
+			return false;
+		}
+
+		// loading worked, set the data
+		$this->create();
+		$this->set(array(
+			'author' => $author,
+			'title' => $data['title'],
+			'publish_date' => $time,
+			'link' => $link,
+			'guid' => $data['guid'],
+			'content' => $content,
+			'source' => isset($data['source']) ? $data['source'] : null,
+			));
+
+		return true;
+	}
+
+
+
+
+
+
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**

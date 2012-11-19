@@ -9,6 +9,79 @@ class ArticlesController extends AppController {
 
 
 /**
+ * Parse all Yahoo RSS feeds and collect new articles
+ *
+ * php script laedt ALLE artikel in die db
+ * RSSFeeds -> Von allen RSS Feeds alle Artikel laden
+ * pro RSS Feed
+ * alle artikel durchgehen
+ * ueberpruefen ob artikel mit diesem namen in der db
+ * wenn nicht, dann hinzufuegen
+ * otherwise skip
+ * do until alle rss feeds durch
+ *
+ * @param  boolean $lastestTenOnly If true only parse the lastest 10 articles, 
+ *                                 since parsing all articles is very slow
+ */
+	public function grabArticles($lastestTenOnly=false) {
+		App::uses('AllRSSFeeds', 'Lib');
+		App::uses('LastRSS', 'Lib');
+
+		$rssReader = new LastRSS();
+		$rssFeeds = new AllRSSFeeds();
+		$feeds = $rssFeeds->getAllRSS();
+		// $this->set('articles', $rssReader->get($feeds['News']));
+
+		$log = '';
+
+		foreach ($feeds as $feed) {
+			$parsedFeed = $rssReader->get($feed);
+			$log .= '<h1>Parsing feed '.$parsedFeed['title'].'</h1>';
+
+			foreach ($parsedFeed['items'] as $index=>$articleMeta) {
+				if($lastestTenOnly && $index>9) {
+					break; // latest 10 articles are parsed
+				}
+
+				$log .= 'Parsing article "'.$articleMeta['title'].'"...<br>';
+				
+				if(!isset($articleMeta['guid']) || empty($articleMeta['guid'])) {
+					$log .= 'Could not read guid for article:';
+					$log .= '<pre>'.print_r($articleMeta,true).'</pre>';
+					break;
+				}
+
+				if($this->Article->guidExists($articleMeta['guid'])) {
+					$log .= 'Article already exists in our database, skipping.<br><br>';
+					continue;
+				}
+
+				if(!$this->Article->parse($articleMeta)) {
+					$log .= 'Could not parse article.<br><br>';
+					continue;
+				}
+
+				// save the article
+				$this->Article->set('channel', $parsedFeed['title']);
+				if(!$this->Article->save()) {
+					$log .= 'Could not save article.<br><br>';
+					$log .= '<pre>'.print_r($this->Article->invalidFields(),true).'</pre>';
+					continue;
+				} else {
+					$log .= 'Article saved.<br><br>';
+				}
+			}
+		}
+
+		$this->set('log', $log .'<br><h1>Yayyy, geschafft :D</h1>');
+	}
+
+
+
+
+
+
+/**
  * index method
  *
  * @return void
