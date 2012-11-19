@@ -10,10 +10,10 @@ Der zweite geht alle Artikel durch und erstellt nach Bedarf MobileWorks Themen-F
 	<li><a href="articles/grabArticles/">Load all articles from all feed (about 1h)</a></li>
 	<li><a href="articles/grabArticles/10">Load latest 10 articles from all feed</a></li>
 	<li><a href="articles/grabArticles/10/true">Load latest 10 articles from first feed only</a></li>
-	<li><a href="articles/grabArticles/1/true">Load latest articles from first feed only</a>
+	<li><a href="articles/grabArticles/1/true">Load latest articles from first feed only (fast)</a>
 		<br /><br /></li>
 
-	<li><a href="paragraphs/startEvaluation">Start MobileWorks-evaluation for unanalysed paragraphs</a></li>
+	<li><a href="articles/startEvaluation">Start MobileWorks-evaluation for unanalysed articles</a></li>
 </ul>
 
 <h2>Company Administration</h2>
