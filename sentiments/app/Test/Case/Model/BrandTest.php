@@ -17,7 +17,8 @@ class BrandTest extends CakeTestCase {
 		'app.company',
 		'app.evaluation',
 		'app.paragraph',
-		'app.article'
+		'app.article',
+		'app.brands_paragraph'
 	);
 
 /**

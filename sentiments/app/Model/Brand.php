@@ -5,6 +5,7 @@ App::uses('AppModel', 'Model');
  *
  * @property Company $Company
  * @property Evaluation $Evaluation
+ * @property Paragraph $Paragraph
  */
 class Brand extends AppModel {
 
@@ -51,6 +52,30 @@ class Brand extends AppModel {
 			'exclusive' => '',
 			'finderQuery' => '',
 			'counterQuery' => ''
+		)
+	);
+
+
+/**
+ * hasAndBelongsToMany associations
+ *
+ * @var array
+ */
+	public $hasAndBelongsToMany = array(
+		'Paragraph' => array(
+			'className' => 'Paragraph',
+			'joinTable' => 'brands_paragraphs',
+			'foreignKey' => 'brand_id',
+			'associationForeignKey' => 'paragraph_id',
+			'unique' => 'keepExisting',
+			'conditions' => '',
+			'fields' => '',
+			'order' => '',
+			'limit' => '',
+			'offset' => '',
+			'finderQuery' => '',
+			'deleteQuery' => '',
+			'insertQuery' => ''
 		)
 	);
 

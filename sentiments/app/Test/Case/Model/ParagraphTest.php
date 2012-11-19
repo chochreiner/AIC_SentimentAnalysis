@@ -17,7 +17,8 @@ class ParagraphTest extends CakeTestCase {
 		'app.article',
 		'app.evaluation',
 		'app.brand',
-		'app.company'
+		'app.company',
+		'app.brands_paragraph'
 	);
 
 /**
