@@ -9,7 +9,10 @@ class ArticlesController extends AppController {
 
 
 /**
- * Parse all Yahoo RSS feeds and collect new articles
+ * Parse all Yahoo RSS feeds and collect new articles.
+ *
+ * In the article models afterSave callback all article
+ * paragraphs are extracted.
  *
  * php script laedt ALLE artikel in die db
  * RSSFeeds -> Von allen RSS Feeds alle Artikel laden
@@ -20,10 +23,13 @@ class ArticlesController extends AppController {
  * otherwise skip
  * do until alle rss feeds durch
  *
- * @param  boolean $lastestTenOnly If true only parse the lastest 10 articles, 
- *                                 since parsing all articles is very slow
+ * @param  Integer $lastestNumberOfArticles If a number, only parse the lastest articles, 
+ *                                          since parsing all articles is very slow. For
+ *                                          testing use e.g. 1 or 10
+ * @param  Boolean $onlyFirstFeed 			Set this to true to only use the first feed,
+ *                                   		this is for testing purposes.
  */
-	public function grabArticles($lastestTenOnly=false) {
+	public function grabArticles($lastestNumberOfArticles=false,$onlyFirstFeed=false) {
 		App::uses('AllRSSFeeds', 'Lib');
 		App::uses('LastRSS', 'Lib');
 
@@ -39,8 +45,8 @@ class ArticlesController extends AppController {
 			$log .= '<h1>Parsing feed '.$parsedFeed['title'].'</h1>';
 
 			foreach ($parsedFeed['items'] as $index=>$articleMeta) {
-				if($lastestTenOnly && $index>9) {
-					break; // latest 10 articles are parsed
+				if($lastestNumberOfArticles && $index>=$lastestNumberOfArticles) {
+					break; // latest articles are parsed
 				}
 
 				$log .= 'Parsing article "'.$articleMeta['title'].'"...<br>';
@@ -70,6 +76,10 @@ class ArticlesController extends AppController {
 				} else {
 					$log .= 'Article saved.<br><br>';
 				}
+			}
+
+			if($onlyFirstFeed) {
+				break;
 			}
 		}
 

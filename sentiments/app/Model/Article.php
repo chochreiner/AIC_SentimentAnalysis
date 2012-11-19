@@ -157,6 +157,41 @@ class Article extends AppModel {
 	}
 
 
+/**
+ * After a new article is created we split the article
+ * content into paragraphs and save those.
+ * 
+ * @param  Boolean $created Only create paragraphs if $created=true
+ */
+	public function afterSave($created) {
+		echo "Aftersave of ".$this->data['Article']['title'];
+		if(!$created) {
+			return;
+		}
+
+		$dom_document = new DOMDocument();
+		@$dom_document->loadHTML($this->data['Article']['content']);
+		$allParagraphs = $dom_document->getElementsByTagName('p');
+		$position = 0;
+
+		foreach($allParagraphs as $i => $para) {
+			if(trim($para->nodeValue) == '') {
+				continue;
+			}
+
+			$this->Paragraph->create();
+			$this->Paragraph->set(array(
+				'article_id' => $this->id,
+				'position'   => $position,
+				'text'		 => $para->nodeValue
+				));
+			if(!$this->Paragraph->save()) {
+				$this->delete();
+				throw new Exception('Could not create paragraph for article '.$this->id);
+			}
+			$position++;
+		}
+	}
 
 
 
