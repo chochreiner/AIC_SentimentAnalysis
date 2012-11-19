@@ -141,11 +141,17 @@ class Article extends AppModel {
 			return false;
 		}
 
+		// for some reason the title my be in an CDATA tag, remove that
+		$title = trim($data['title']);
+		if((strpos($title,'<![CDATA[') == 0) && (strpos($title,']]>') == (strlen($title)-3))) {
+			$title = substr($title, 9, strlen($title)-3-9);
+		}
+
 		// loading worked, set the data
 		$this->create();
 		$this->set(array(
 			'author' => $author,
-			'title' => $data['title'],
+			'title' => $title,
 			'publish_date' => $time,
 			'link' => $link,
 			'guid' => $data['guid'],
@@ -164,7 +170,6 @@ class Article extends AppModel {
  * @param  Boolean $created Only create paragraphs if $created=true
  */
 	public function afterSave($created) {
-		echo "Aftersave of ".$this->data['Article']['title'];
 		if(!$created) {
 			return;
 		}
@@ -174,22 +179,40 @@ class Article extends AppModel {
 		$allParagraphs = $dom_document->getElementsByTagName('p');
 		$position = 0;
 
-		foreach($allParagraphs as $i => $para) {
-			if(trim($para->nodeValue) == '') {
+		foreach($allParagraphs as $paragraph) {
+			if(trim($paragraph->nodeValue) == '') {
 				continue;
 			}
 
-			$this->Paragraph->create();
-			$this->Paragraph->set(array(
-				'article_id' => $this->id,
-				'position'   => $position,
-				'text'		 => $para->nodeValue
-				));
-			if(!$this->Paragraph->save()) {
-				$this->delete();
-				throw new Exception('Could not create paragraph for article '.$this->id);
+			// it's possible that paragraphs are created by breaks too
+			foreach(explode('<br>', $paragraph->nodeValue) as $paragraph1) {
+				if(trim($paragraph1) == '') {
+					continue;
+				}
+				foreach(explode('<br/>', $paragraph1) as $paragraph2) {
+					if(trim($paragraph2) == '') {
+						continue;
+					}
+					foreach(explode('<br />', $paragraph2) as $paragraph3) {
+						if(trim($paragraph3) == '') {
+							continue;
+						}
+
+						// we found another paragrah, save it
+						$this->Paragraph->create();
+						$this->Paragraph->set(array(
+							'article_id' => $this->id,
+							'position'   => $position,
+							'text'		 => $paragraph3
+							));
+						if(!$this->Paragraph->save()) {
+							$this->delete();
+							throw new Exception('Could not create paragraph for article '.$this->id);
+						}
+						$position++;
+					}
+				}
 			}
-			$position++;
 		}
 	}
 
