@@ -1,3 +1,5 @@
+.DS_Store
+
 # ignore database config
 sentiments/app/Config/database.php
 
