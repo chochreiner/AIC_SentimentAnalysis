@@ -32,4 +32,19 @@ App::uses('Controller', 'Controller');
  * @link http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+
+/**
+ * Returns a configured mobileWorksApi
+ */
+	public function getMobileWorksApi() {
+
+		App::uses('MobileWorks', 'Lib');
+		$mw = new MobileWorks(); // provide your username/password
+		$mw->username = 'hochi';
+		$mw->password = 'hochi';
+		$mw->sandbox();
+
+		return $mw;
+	}
 }

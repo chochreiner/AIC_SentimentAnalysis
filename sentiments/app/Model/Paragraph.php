@@ -16,6 +16,51 @@ class Paragraph extends AppModel {
  */
 	public $displayField = 'text';
 
+	private $cached_brands = false;
+
+
+/**
+ * Filter the related brands and associate them
+ * @param  Boolean $created Only create paragraphs if $created=true
+ */
+	public function afterSave($created) {
+		if(!$created) {
+			return;
+		}
+
+		// prepare array of hasAndBelongsToMany associations
+		$this->data['Brand'] = array('Brand' => array());
+
+		// check for each brand if it matches
+		$brands = $this->cached_brands ? $this->cached_brands : $this->Brand->find('all');
+		$this->cached_brands = $brands;
+		$text = strtolower($this->data['Paragraph']['text']);
+
+		foreach ($brands as $brand) {
+			$search_names = explode(',', $brand['Brand']['search_names']);
+
+			$found = false;
+			foreach ($search_names as $needle) {
+				if(strpos($text,strtolower($needle)) != false) {
+					$found = true;
+					break;
+				}
+			}
+
+			if($found) {
+				// associate to brand
+				array_push($this->data['Brand']['Brand'], $brand['Brand']['id']);
+			}
+		}
+
+		$this->saveAll($this->data);
+	}
+
+
+
+
+
+
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
