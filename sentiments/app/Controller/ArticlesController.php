@@ -39,9 +39,12 @@ class ArticlesController extends AppController {
 		// $this->set('articles', $rssReader->get($feeds['News']));
 
 		$log = '';
-
 		foreach ($feeds as $feed) {
 			$parsedFeed = $rssReader->get($feed);
+			if($parsedFeed == false) {
+				$this->set('log', '<h1>Could not load feed '.$feed.'.<br/><br />Aborted.</h1>');
+				return;
+			}
 			$log .= '<h1>Parsing feed '.$parsedFeed['title'].'</h1>';
 
 			foreach ($parsedFeed['items'] as $index=>$articleMeta) {
