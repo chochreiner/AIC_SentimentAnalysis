@@ -43,8 +43,6 @@ class Article extends AppModel {
 	public function parse($data) {
 		$link = $data['link'];
 		
-		$link = 'http://finance.yahoo.com/blogs/daily-ticker/stocks-jump-fiscal-cliff-fever-breaks-bounce-legs-165148941.html';
-		
 		$htmlsrc = file_get_contents($link);
 		$dom_document = new DOMDocument();
 		$dom_document->strictErrorChecking = false;
