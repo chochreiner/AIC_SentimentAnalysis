@@ -280,4 +280,7 @@ Cache::config('_cake_model_', array(
 
 
 Configure::write('domain', 'http://aic.com');
+Configure::read('version', ''); // needs to be empty for test_data_full, otherwise choose your own
+
+
 
