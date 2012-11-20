@@ -60,7 +60,7 @@ class ArticlesController extends AppController {
 					break;
 				}
 
-				if($this->Article->guidExists($articleMeta['guid'])) {
+				if(false && $this->Article->guidExists($articleMeta['guid'])) {
 					$log .= 'Article already exists in our database, skipping.<br><br>';
 					continue;
 				}

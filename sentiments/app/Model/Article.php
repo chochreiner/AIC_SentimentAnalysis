@@ -42,6 +42,9 @@ class Article extends AppModel {
  */
 	public function parse($data) {
 		$link = $data['link'];
+		
+		$link = 'http://finance.yahoo.com/blogs/daily-ticker/stocks-jump-fiscal-cliff-fever-breaks-bounce-legs-165148941.html';
+		
 		$htmlsrc = file_get_contents($link);
 		$dom_document = new DOMDocument();
 		$dom_document->strictErrorChecking = false;
@@ -127,6 +130,20 @@ class Article extends AppModel {
 		if(!$contentDOM || ($contentDOM instanceof DOMNodeList) && !is_null($contentDOM)) {
 			if(!is_null($contentDOM ->item(0)) && is_object($contentDOM->item(0))){
 				$content = $dom_document->saveXML($contentDOM->item(0));
+
+				$endCut = strrpos($content, '</em></p></div></div>');
+				if($endCut){
+					$startCur = strrpos($content, '<p><em>');
+					
+					$toCut = substr($content, $startCur, $endCut);
+					if(strrpos($toCut, '<p>') == 0){ // that means no other sub-paragraph will be cut
+						$content = substr($content, 0, $startCur);	
+					}
+				}
+// 				echo '<pre>';
+// 				print_r($toCut);
+// 				echo '</pre>';
+				
 			}else{
 // 				echo "<pre>";
 // 				print_r($contentDOM);
