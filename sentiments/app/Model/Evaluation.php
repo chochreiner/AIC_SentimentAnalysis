@@ -7,6 +7,9 @@ App::uses('AppModel', 'Model');
  * @property Brand $Brand
  */
 class Evaluation extends AppModel {
+	public static $TYPE_ARTICLE_TOPIC = 0;
+	public static $TYPE_TITLE_SENTIMENT = 1;
+	public static $TYPE_PARAGRAPH_SENTIMENT = 2;
 
 
 
@@ -24,7 +27,7 @@ class Evaluation extends AppModel {
 
 		// create a project (to get an instant callback, we need a new project for every task)
 		$p = $mobileWorksApi->Project(array(
-			'projectid' => $this->data['Evaluation']['id'],
+			'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
 			'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
 			//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
 			));
@@ -32,7 +35,7 @@ class Evaluation extends AppModel {
 		// create the tasks
 		for($i=0; $i<3; $i++) {
 			$t = $mobileWorksApi->Task(array(
-				'taskid'       => $this->data['Evaluation']['id']. '-' . $i,
+				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . $i,
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
@@ -42,10 +45,10 @@ class Evaluation extends AppModel {
 				));
 
 			// build choices
-			if($this->data['Evaluation']['type'] == 'articletopic') {
+			if($this->data['Evaluation']['type'] == Evaluation::$TYPE_ARTICLE_TOPIC) {
 				$t->add_field('result', 'm', array("choices"=>"Yes,No"));
 			} else { // titlesentiment or paragraphsentiment
-				$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+				$t->add_field('rating', 'mx', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
 			}
 
 			// add to project
