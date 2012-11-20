@@ -48,7 +48,7 @@ class Evaluation extends AppModel {
 			if($this->data['Evaluation']['type'] == Evaluation::$TYPE_ARTICLE_TOPIC) {
 				$t->add_field('result', 'm', array("choices"=>"Yes,No"));
 			} else { // titlesentiment or paragraphsentiment
-				$t->add_field('rating', 'mx', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+				$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
 			}
 
 			// add to project

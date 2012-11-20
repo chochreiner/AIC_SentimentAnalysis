@@ -6,7 +6,7 @@ Short install instructions
 
  - Copy the file __sentiments/app/config/database.php.default__ to __sentiments/app/config/database.php__ and change the username and pw values for your environment  
  - Create a database as defined in the database.php  
- - Run in the shell __Console/cake schema create__ to build the database tables  
+ - Run in the shell __Console/cake schema create/update__ to build the database tables  
  - Optionally: Run the __sentiments/app/config/Schema/test_data.sql__  
 
 
