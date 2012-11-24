@@ -47,24 +47,17 @@ class EvaluationsController extends AppController {
 		$mw = $this->getMobileWorksApi();
 		$p = $mw->retrieve($url);
 
-		echo '<pre>';
-		print_r($p);
-		echo '</pre>';
-		
 		if($p['status'] == 'd' || $p['status'] == 'done'){
 			
 			// that means that all tasks were answered.
-		
-// 			print_r($this->Evaluation->data);
 		
 			foreach($p['tasks'] as $task){
 				if(!empty($task['answer'])){
 					foreach($task['answer'] as $ans){
 
 
-						$blubb = $this->Evaluation->EvaluationResult->find('list', array('conditions' => array('taskid' => $task['taskid'])));
-						print_r($blubb);
-						if (!empty($blubb)){
+						$temp = $this->Evaluation->EvaluationResult->find('list', array('conditions' => array('taskid' => $task['taskid'])));
+						if (!empty($temp)){
 							continue;
 						}
 						
@@ -89,7 +82,7 @@ class EvaluationsController extends AppController {
 			$this->Evaluation->saveAll($this->Evaluation->data);
 
 		}
-// 		$this->redirect(array('action' => 'index'));
+		$this->redirect(array('action' => 'index'));
 	}
 
 /**

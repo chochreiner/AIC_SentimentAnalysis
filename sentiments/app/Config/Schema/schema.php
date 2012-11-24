@@ -56,6 +56,7 @@ class AppSchema extends CakeSchema {
 	public $evaluation_results = array(
 		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
 		'evaluation_id' => array('type' => 'integer', 'null' => false, 'default' => null),
+		'taskid' => array('type' => 'string', 'null' => false, 'default' => null),
 		'result' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 2),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
