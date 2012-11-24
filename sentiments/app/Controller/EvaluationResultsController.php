@@ -7,6 +7,34 @@ App::uses('AppController', 'Controller');
  */
 class EvaluationResultsController extends AppController {
 
+	public function getAllResults($evaluationId = null) {
+		$this->EvaluationResult->recursive=0;
+		if(is_null($evaluationId)) {
+			$data = $this->EvaluationResult->find('all');
+		} else {
+			$data = $this->EvaluationResult->find('all', 
+					array('conditions' => 
+							array('evaluation_id' => $evaluationId)));
+		}
+		
+
+		$this->set('data', $data);
+		$this->render('/Evaluations/Json/index');
+		
+// 		return json_encode($data);
+	}
+	
+	public function getResultsByTaskId($taskid) {
+		$data = $this->EvaluationResult->find('all',
+				array('conditions' =>
+						array('taskid' => $taskid)));
+		if (empty($data)) {
+			throw new NotFoundException(__('Invalid evaluation result'));
+		}
+		$this->set('data', $data);
+		$this->render('/Evaluations/Json/index');
+// 		$this->render('Layouts/default');
+	}	
 /**
  * index method
  *

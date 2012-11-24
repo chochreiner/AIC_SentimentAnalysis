@@ -7,7 +7,6 @@ App::uses('AppController', 'Controller');
  */
 class EvaluationsController extends AppController {
 
-
 /**
  * MobileWorks doesn't allow direct sending of the evaluatable 
  * content, instead we must provide it as a url. So here it is!
@@ -78,8 +77,10 @@ class EvaluationsController extends AppController {
 							$this->Evaluation->EvaluationResult->set('result', 1);
 						}else if($ans['result'] == 'no' || $ans['result'] == 'No') {
 							$this->Evaluation->EvaluationResult->set('result', 0);
-						}else{
+						}else if(is_int($ans['result'])){
 							$this->Evaluation->EvaluationResult->set('result', $ans['result']);
+						} else {
+							throw new Exception('Invalid Result');
 						}
 						$this->Evaluation->EvaluationResult->save();
 					}
