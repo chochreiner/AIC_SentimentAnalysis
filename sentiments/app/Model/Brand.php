@@ -19,6 +19,9 @@ class Brand extends AppModel {
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
+	
+	// maybe copy the afterSave function from Paragraph to trigger a "rescan" of paragraphs after a new brand has been added?
+	
 /**
  * belongsTo associations
  *

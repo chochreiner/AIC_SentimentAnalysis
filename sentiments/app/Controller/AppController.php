@@ -47,4 +47,5 @@ class AppController extends Controller {
 
 		return $mw;
 	}
+	
 }

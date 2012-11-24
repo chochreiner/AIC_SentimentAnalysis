@@ -44,5 +44,6 @@
 		<li><?php echo $this->Html->link(__('New Evaluation Result'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
+		<li><?php echo $this->Html->link(__('Grab Results from MobileWorks'), array('controller' => 'evaluationResults', 'action' => 'grabResultsFromMW')); ?> </li>
 	</ul>
 </div>

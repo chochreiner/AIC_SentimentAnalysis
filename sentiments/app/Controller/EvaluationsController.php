@@ -34,7 +34,61 @@ class EvaluationsController extends AppController {
 	public function returnResult($id) {
 		// @todo implement this, see also the model Evaluation::pushTask
 
-		exit(1);
+		$this->Evaluation->id = $id;
+		if (!$this->Evaluation->exists()) {
+			throw new NotFoundException(__('Invalid evaluation'));
+		}
+		
+		$this->Evaluation->read(null,$id);
+		$url = $this->Evaluation->data['Evaluation']['task_url'];
+
+		// workaround because https does not work
+		$url = 'http://'.substr($url, 8);
+
+		$mw = $this->getMobileWorksApi();
+		$p = $mw->retrieve($url);
+
+		echo '<pre>';
+		print_r($p);
+		echo '</pre>';
+		
+		if($p['status'] == 'd' || $p['status'] == 'done'){
+			
+			// that means that all tasks were answered.
+		
+// 			print_r($this->Evaluation->data);
+		
+			foreach($p['tasks'] as $task){
+				if(!empty($task['answer'])){
+					foreach($task['answer'] as $ans){
+
+
+						$blubb = $this->Evaluation->EvaluationResult->find('list', array('conditions' => array('taskid' => $task['taskid'])));
+						print_r($blubb);
+						if (!empty($blubb)){
+							continue;
+						}
+						
+						$this->Evaluation->EvaluationResult->create();
+						$this->Evaluation->EvaluationResult->set('evaluation_id', $this->Evaluation->id);
+						$this->Evaluation->EvaluationResult->set('taskid', $task['taskid']);
+						
+						
+						if($ans['result'] == 'yes' || $ans['result'] == 'Yes'){
+							$this->Evaluation->EvaluationResult->set('result', 1);
+						}else if($ans['result'] == 'no' || $ans['result'] == 'No') {
+							$this->Evaluation->EvaluationResult->set('result', 0);
+						}else{
+							$this->Evaluation->EvaluationResult->set('result', $ans['result']);
+						}
+						$this->Evaluation->EvaluationResult->save();
+					}
+				}
+			}
+			$this->Evaluation->saveAll($this->Evaluation->data);
+
+		}
+// 		$this->redirect(array('action' => 'index'));
 	}
 
 /**

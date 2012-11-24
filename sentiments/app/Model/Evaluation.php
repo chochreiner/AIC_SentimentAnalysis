@@ -24,7 +24,7 @@ class Evaluation extends AppModel {
  */
 	public function pushTask($mobileWorksApi) {
 		$this->read(null, $this->id);
-
+		
 		// create a project (to get an instant callback, we need a new project for every task)
 		$p = $mobileWorksApi->Project(array(
 			'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
@@ -32,6 +32,22 @@ class Evaluation extends AppModel {
 			//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
 			));
 
+		$test1 = $mobileWorksApi->Task(array(
+				'resource'=> Configure::read('domain'),
+				'instructions' => 'Are you experienced in economies?',
+				));
+		$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
+		$p->add_test_task($test1);
+		
+// 		$test2 = $mw->Task(array("resource"=>"http://www.mybusinesscards.com/test_two.png"));
+// 		$test2->add_field("Name", "t", array("answers"=>array("Jane Doe")));
+// 		$test2->add_field("Title", "t", array("answers"=>array("CFO")));
+// 		$test2->add_field("Phone number", "p", array("answers"=>array("111-111-1111")));
+		
+		
+// 		$p->add_test_task($test2);
+		
+		
 		// create the tasks
 		for($i=0; $i<3; $i++) {
 			$t = $mobileWorksApi->Task(array(
@@ -55,6 +71,10 @@ class Evaluation extends AppModel {
 			$p->add_task($t);
 		}
 
+// 		echo '<pre>';
+// 		print_r($p);
+// 		echo '</pre>';
+		
 		// push the project
 		$project_url = $p->post();
 

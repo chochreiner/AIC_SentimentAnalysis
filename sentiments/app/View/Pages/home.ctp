@@ -27,5 +27,6 @@ Der zweite geht alle Artikel durch und erstellt nach Bedarf MobileWorks Themen-F
 	<li><a href="articles/">Articles</a></li>
 	<li><a href="paragraphs/">Paragraphs</a></li>
 	<li><a href="evaluations/">Evaluations</a></li>
+	<li><a href="evaluationResults/">Results</a></li>
 </ul>
 

@@ -29,7 +29,8 @@ class MobileWorks {
 	}
 
 	public function sandbox() {
-		$this->domain = 'https://sandbox.mobileworks.com/';
+		// authord by Gabor: originally it was httpS - but that bugged at least by me
+		$this->domain = 'http://sandbox.mobileworks.com/';
 	}
 
 	public function version( $v = null ) {

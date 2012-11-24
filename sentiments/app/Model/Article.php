@@ -174,6 +174,9 @@ class Article extends AppModel {
 			'source' => isset($data['source']) ? $data['source'] : null,
 			));
 
+		// check article for brands
+		
+		
 		return true;
 	}
 
@@ -184,6 +187,8 @@ class Article extends AppModel {
  * 
  * @param  Boolean $created Only create paragraphs if $created=true
  */
+	
+	// logic? in model? 
 	public function afterSave($created) {
 		if(!$created) {
 			return;
@@ -200,33 +205,25 @@ class Article extends AppModel {
 			}
 
 			// it's possible that paragraphs are created by breaks too
-			foreach(explode('<br>', $paragraph->nodeValue) as $paragraph1) {
-				if(trim($paragraph1) == '') {
+			$paraArray = preg_split('/<br\s*\/?>/', $paragraph->nodeValue);
+			
+			foreach($paraArray as $paragraph) {
+				if(trim($paragraph) == '') {
 					continue;
 				}
-				foreach(explode('<br/>', $paragraph1) as $paragraph2) {
-					if(trim($paragraph2) == '') {
-						continue;
-					}
-					foreach(explode('<br />', $paragraph2) as $paragraph3) {
-						if(trim($paragraph3) == '') {
-							continue;
-						}
 
-						// we found another paragrah, save it
-						$this->Paragraph->create();
-						$this->Paragraph->set(array(
-							'article_id' => $this->id,
-							'position'   => $position,
-							'text'		 => $paragraph3
-							));
-						if(!$this->Paragraph->save()) {
-							$this->delete();
-							throw new Exception('Could not create paragraph for article '.$this->id);
-						}
-						$position++;
-					}
+				// we found another paragrah, save it
+				$this->Paragraph->create();
+				$this->Paragraph->set(array(
+					'article_id' => $this->id,
+					'position'   => $position,
+					'text'		 => $paragraph
+					));
+				if(!$this->Paragraph->save()) {
+					$this->delete();
+					throw new Exception('Could not create paragraph for article '.$this->id);
 				}
+				$position++;
 			}
 		}
 	}
