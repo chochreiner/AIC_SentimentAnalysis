@@ -1,4 +1,4 @@
-
+<div class="content_box">
 <h1>Welcome to the Sentiments Analysis Backend</h1>
 
 
@@ -29,4 +29,4 @@ Der zweite geht alle Artikel durch und erstellt nach Bedarf MobileWorks Themen-F
 	<li><a href="evaluations/">Evaluations</a></li>
 	<li><a href="evaluationResults/">Results</a></li>
 </ul>
-
+</div>
