@@ -1,0 +1,30 @@
+ body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+        background-image: -ms-radial-gradient(center, ellipse farthest-corner, #FFFFFF 0%, #D4D4D4 200%);
+
+        background-image: -moz-radial-gradient(center, ellipse farthest-corner, #FFFFFF 0%, #D4D4D4 200%);
+
+        background-image: -o-radial-gradient(center, ellipse farthest-corner, #FFFFFF 0%, #D4D4D4 200%);
+
+        background-image: -webkit-gradient(radial, center center, 0, center center, 497, color-stop(0, #FFFFFF), color-stop(2, #D4D4D4));
+
+        background-image: -webkit-radial-gradient(center, ellipse farthest-corner, #FFFFFF 0%, #D4D4D4 200%);
+        background-image: radial-gradient(ellipse farthest-corner at center, #FFFFFF 0%, #D4D4D4 200%);
+      }
+      
+html {
+    height: 100%;
+}
+
+.content_box {
+    background-color: #FFF;
+    border: 1px solid #e3e3e3;
+    padding: 19px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius:  5px;
+    border-radius:  5px;
+    -webkit-box-shadow: 0 1px 2px #555;
+    -moz-box-shadow: 0 1px 2px #555;
+    box-shadow: 0 1px 2px #555;
+}
