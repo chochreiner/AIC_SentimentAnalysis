@@ -31,13 +31,11 @@ class Evaluation extends AppModel {
 				'webhooks'  => Configure::read('domain') . '/evaluations/returnstepone/'.$this->data['Evaluation']['id'],
 			));
 
+			$queryresult = $this->query("SELECT text FROM tblparagraphs WHERE id =".$this->data['Evaluation']['paragraph_id'] );
 			$taskid = Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000);															
 			$t = $mobileWorksApi->Task(array(
 				'taskid'       => $taskid,
-				//TODO add concrete paragraph to instruction and remove ressources
-				'instructions' => $this->data['Evaluation']['question'],
-				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
-				'resourcetype' => 't',
+				'instructions' => $this->data['Evaluation']['question']."\n\n".$queryresult['0']['tblparagraphs']['text'],
 				'workflow'     => $workflowType,
 				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
