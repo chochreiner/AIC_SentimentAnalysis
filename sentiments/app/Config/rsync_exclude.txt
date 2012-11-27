@@ -1,0 +1,14 @@
+.git
+deps
+README.md
+app/tmp/
+app/Config/rsync_exclude.txt
+web/.htaccess
+app/Config/database.php
+app/Config/email.php
+.buildpath
+.htaccess
+.project
+.settings
+build.properties
+build.xml
