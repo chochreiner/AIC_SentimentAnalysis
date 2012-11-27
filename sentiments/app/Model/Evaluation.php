@@ -33,10 +33,10 @@ class Evaluation extends AppModel {
 			));
 
 			$test1 = $mobileWorksApi->Task(array(
-				'resource'=> Configure::read('domain'),
+				//'resource'=> Configure::read('domain'),
 				'instructions' => 'Are you experienced in economies?',
 				));
-			$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
+			$test1->add_field('result', 'm', array("choices"=>"Yes,No"));
 
 			$p->add_test_task($test1);
 				

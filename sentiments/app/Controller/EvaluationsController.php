@@ -35,6 +35,13 @@ class EvaluationsController extends AppController {
 
 		$this->Evaluation->id = $id;
 
+		$this->Evaluation->EvaluationResult->create();
+		$this->Evaluation->EvaluationResult->set('evaluation_id', $this->Evaluation->id);
+		$this->Evaluation->EvaluationResult->set('taskid', file_get_contents ('php://input'));
+		$this->Evaluation->EvaluationResult->save();
+		
+		return;
+
 		if (!$this->Evaluation->exists()) {
 			throw new NotFoundException(__('Invalid evaluation'));
 		}
