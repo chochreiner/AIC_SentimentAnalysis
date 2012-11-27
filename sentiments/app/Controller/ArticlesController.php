@@ -147,7 +147,7 @@ class ArticlesController extends AppController {
 							'brand_id' => $brandData['id'],
 							'paragraph_id' => $this->Article->Paragraph->id,
 							'question' => 'Is this article mainly about '.$brandData['name'].'?',
-							'type'	   => 'articletopic'
+							'type'	   => '0' //articleTopic = 0
 						)));
 					
 					$log .= '<p>Creating new MobileWorks Task for question: '.
