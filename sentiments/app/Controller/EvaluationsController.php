@@ -34,6 +34,7 @@ class EvaluationsController extends AppController {
 		// @todo implement this, see also the model Evaluation::pushTask
 
 		$this->Evaluation->id = $id;
+
 		if (!$this->Evaluation->exists()) {
 			throw new NotFoundException(__('Invalid evaluation'));
 		}
@@ -47,14 +48,13 @@ class EvaluationsController extends AppController {
 		$mw = $this->getMobileWorksApi();
 		$p = $mw->retrieve($url);
 
+
 		if($p['status'] == 'd' || $p['status'] == 'done'){
-			
 			// that means that all tasks were answered.
 		
 			foreach($p['tasks'] as $task){
 				if(!empty($task['answer'])){
 					foreach($task['answer'] as $ans){
-
 
 						$temp = $this->Evaluation->EvaluationResult->find('list', array('conditions' => array('taskid' => $task['taskid'])));
 						if (!empty($temp)){
@@ -80,7 +80,6 @@ class EvaluationsController extends AppController {
 				}
 			}
 			$this->Evaluation->saveAll($this->Evaluation->data);
-
 		}
 		$this->redirect(array('action' => 'index'));
 	}

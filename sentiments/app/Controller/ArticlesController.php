@@ -98,8 +98,6 @@ class ArticlesController extends AppController {
 	public function startEvaluation() {
 		$log = '';
 		
-		
-		
 		// load all open articles
 		$open_articles = $this->Article->find('all', array(
 			'conditions' => array(
@@ -114,29 +112,21 @@ class ArticlesController extends AppController {
 		// create a MW api class
 		$mw = $this->getMobileWorksApi();
 		
-		
-		$project_info = $mw->retrieve( 'http://sandbox.mobileworks.com/api/v2/project/a5/' );
-		
-		echo '<pre>';
-		print_r($project_info);
-		echo '</pre>';
-		
 		// now handle each paragraph individually
 		foreach ($open_articles as $open_article) {
 			$log .= '<h2>Analysing Article <i>'.$open_article['Article']['title'].'</i></h2>';
 
 			foreach($open_article['Paragraph'] as $paragraphData) {
-
-				// load the paragraph with all associated data
+		// load the paragraph with all associated data
 				$this->Article->Paragraph->read(null, $paragraphData['id']);
 
 				if(empty($this->Article->Paragraph->data['Brand'])) {
 					continue; // no associated brand
 				}
 
+
 				foreach ($this->Article->Paragraph->data['Brand'] as $brandData) {
 					// check if there is already an request for this brand
-
 					if(in_array($brandData['id'], $handled_brands)) {
 						continue;
 					}
@@ -144,18 +134,16 @@ class ArticlesController extends AppController {
 					$this->Article->Paragraph->Evaluation->create();
 					$this->Article->Paragraph->Evaluation->save(array(
 						'Evaluation'=>array(
-							'brand_id' => $brandData['id'],
-							'paragraph_id' => $this->Article->Paragraph->id,
-							'question' => 'Is this article mainly about '.$brandData['name'].'?',
-							'type'	   => 'articletopic'
-						)));
+						'brand_id' => $brandData['id'],
+						'paragraph_id' => $this->Article->Paragraph->id,
+						'question' => 'Is this article mainly about '.$brandData['name'].'?',
+						'type'	   => '0' //articleTopic = 0
+					)));
 					
-					$log .= '<p>Creating new MobileWorks Task for question: '.
-							'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">'.
-							'Is this article mainly about '.$brandData['name'].'?'.
-							'</a></p>';
+					$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a></p>';
 
-					$this->Article->Paragraph->Evaluation->pushTask($mw);
+
+					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');
 
 					// keep track of handled brands
 					array_push($handled_brands,	$brandData['id']);
@@ -166,8 +154,6 @@ class ArticlesController extends AppController {
 			$this->Article->id = $open_article['Article']['id'];
 			$this->Article->saveField('evaluated', 1);
 		}
-		
-
 		// output log
 		$this->set('log',$log);
 	}

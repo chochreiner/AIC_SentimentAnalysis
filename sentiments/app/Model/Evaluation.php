@@ -22,40 +22,32 @@ class Evaluation extends AppModel {
  * @param  MobileWorks $mobileWorksApi  A configured mobileWorksApi
  * @return void
  */
-	public function pushTask($mobileWorksApi) {
+	public function pushTask($mobileWorksApi, $redundancy, $type) {
 		$this->read(null, $this->id);
 		
-		// create a project (to get an instant callback, we need a new project for every task)
-		$p = $mobileWorksApi->Project(array(
-			'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
-			'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
-			//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
+			// create a project (to get an instant callback, we need a new project for every task)
+			$p = $mobileWorksApi->Project(array(
+				'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
+				'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
+				//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
 			));
 
-		$test1 = $mobileWorksApi->Task(array(
+			$test1 = $mobileWorksApi->Task(array(
 				'resource'=> Configure::read('domain'),
 				'instructions' => 'Are you experienced in economies?',
 				));
-		$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
-		$p->add_test_task($test1);
-		
-// 		$test2 = $mw->Task(array("resource"=>"http://www.mybusinesscards.com/test_two.png"));
-// 		$test2->add_field("Name", "t", array("answers"=>array("Jane Doe")));
-// 		$test2->add_field("Title", "t", array("answers"=>array("CFO")));
-// 		$test2->add_field("Phone number", "p", array("answers"=>array("111-111-1111")));
-		
-		
-// 		$p->add_test_task($test2);
-		
-		
-		// create the tasks
-		for($i=0; $i<3; $i++) {
+			$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
+
+			$p->add_test_task($test1);
+				
+			// create the tasks
 			$t = $mobileWorksApi->Task(array(
-				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . $i,
+				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000),
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
-				'workflow'     => 'm',
+				'workflow'     => $type,
+				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
 				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
 				));
@@ -69,17 +61,12 @@ class Evaluation extends AppModel {
 
 			// add to project
 			$p->add_task($t);
-		}
-
-// 		echo '<pre>';
-// 		print_r($p);
-// 		echo '</pre>';
 		
-		// push the project
-		$project_url = $p->post();
+			// push the project
+			$project_url = $p->post();
 
-		// add the task url to the evaluation record
-		$this->saveField('task_url', $project_url);
+			// add the task url to the evaluation record
+			$this->saveField('task_url', $project_url);
 	}
 
 
