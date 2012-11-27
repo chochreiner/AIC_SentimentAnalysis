@@ -22,10 +22,9 @@ class Evaluation extends AppModel {
  * @param  MobileWorks $mobileWorksApi  A configured mobileWorksApi
  * @return void
  */
-	public function pushTask($mobileWorksApi, $redundancy) {
+	public function pushTask($mobileWorksApi, $redundancy, $type) {
 		$this->read(null, $this->id);
 		
-
 			// create a project (to get an instant callback, we need a new project for every task)
 			$p = $mobileWorksApi->Project(array(
 				'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
@@ -47,7 +46,7 @@ class Evaluation extends AppModel {
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
-				'workflow'     => 's',
+				'workflow'     => $type,
 				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
 				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
