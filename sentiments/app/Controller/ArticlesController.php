@@ -114,7 +114,7 @@ class ArticlesController extends AppController {
 		
 		// now handle each paragraph individually
 		foreach ($open_articles as $open_article) {
-			$log .= '<h2>Analysing Article <i>'.$open_article['Article']['title'].'</i></h2>';
+			$log .= '<h4>Analysing Article <i>'.$open_article['Article']['title'].'</i></h4>';
 
 			foreach($open_article['Paragraph'] as $paragraphData) {
 		// load the paragraph with all associated data
