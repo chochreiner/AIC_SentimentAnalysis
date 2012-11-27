@@ -141,23 +141,24 @@ class ArticlesController extends AppController {
 						continue;
 					}
 
-					$this->Article->Paragraph->Evaluation->create();
-					$this->Article->Paragraph->Evaluation->save(array(
-						'Evaluation'=>array(
+					for($i=0; $i<3; $i++) {
+ 
+						$this->Article->Paragraph->Evaluation->create();
+						$this->Article->Paragraph->Evaluation->save(array(
+							'Evaluation'=>array(
 							'brand_id' => $brandData['id'],
 							'paragraph_id' => $this->Article->Paragraph->id,
 							'question' => 'Is this article mainly about '.$brandData['name'].'?',
 							'type'	   => '0' //articleTopic = 0
 						)));
 					
-					$log .= '<p>Creating new MobileWorks Task for question: '.
-							'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">'.
-							'Is this article mainly about '.$brandData['name'].'?'.
+						$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.
 							'</a></p>';
 
 
-					$this->Article->Paragraph->Evaluation->pushTask($mw);
+						$this->Article->Paragraph->Evaluation->pushTask($mw);
 
+					}
 					// keep track of handled brands
 					array_push($handled_brands,	$brandData['id']);
 				}

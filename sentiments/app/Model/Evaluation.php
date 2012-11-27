@@ -25,26 +25,25 @@ class Evaluation extends AppModel {
 	public function pushTask($mobileWorksApi) {
 		$this->read(null, $this->id);
 		
-		// create a project (to get an instant callback, we need a new project for every task)
-		$p = $mobileWorksApi->Project(array(
-			'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
-			'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
-			//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
+
+			// create a project (to get an instant callback, we need a new project for every task)
+			$p = $mobileWorksApi->Project(array(
+				'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
+				'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
+				//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
 			));
 
-		$test1 = $mobileWorksApi->Task(array(
+			$test1 = $mobileWorksApi->Task(array(
 				'resource'=> Configure::read('domain'),
 				'instructions' => 'Are you experienced in economies?',
 				));
-		$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
+			$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
 
-		$p->add_test_task($test1);
-		
-		// create the tasks
-		//TODO add parameter for redundancy
-		for($i=0; $i<3; $i++) {
+			$p->add_test_task($test1);
+				
+			// create the tasks
 			$t = $mobileWorksApi->Task(array(
-				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . $i,
+				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000),
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
@@ -62,13 +61,12 @@ class Evaluation extends AppModel {
 
 			// add to project
 			$p->add_task($t);
-		}
 		
-		// push the project
-		$project_url = $p->post();
+			// push the project
+			$project_url = $p->post();
 
-		// add the task url to the evaluation record
-		$this->saveField('task_url', $project_url);
+			// add the task url to the evaluation record
+			$this->saveField('task_url', $project_url);
 	}
 
 
