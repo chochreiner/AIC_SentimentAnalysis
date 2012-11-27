@@ -144,8 +144,6 @@ class ArticlesController extends AppController {
 
 
 					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');
-
-					// keep track of handled brands
 					array_push($handled_brands,	$brandData['id']);
 				}
 			}
@@ -157,6 +155,8 @@ class ArticlesController extends AppController {
 		// output log
 		$this->set('log',$log);
 	}
+
+
 
 
 

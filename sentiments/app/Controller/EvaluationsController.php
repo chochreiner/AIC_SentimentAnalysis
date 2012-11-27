@@ -30,15 +30,135 @@ class EvaluationsController extends AppController {
 /**
  * This is triggered by MobileWorks when we have results
  */
-	public function returnResult($id) {
-		// @todo implement this, see also the model Evaluation::pushTask
-
+	public function returnstepone($id) {
+		$result = json_decode(file_get_contents ('php://input'), true);
+		$rating=0;
+		foreach($result['tasks'] as $tasks) {
+			$taskid= $tasks['taskid'];
+			foreach($tasks['answer']['0'] as $results) {
+				if ($results['0']=="Yes") {
+					$rating += 1;
+				}
+				if ($results['0']=="No") {
+					$rating -= 1;
+				}
+		
+			}
+		}
+		if ($rating>0) {
+			$rating = 1;
+		} else {
+			$rating = 0;
+		}
+ 		
 		$this->Evaluation->id = $id;
 
+		$this->Evaluation->read(null,$id);
+		$this->Evaluation->data['Evaluation']['rating'] = $rating;
+		$this->Evaluation->saveAll($this->Evaluation->data);
+		continueEvaluation($taskid);
+		
+		$this->redirect(array('action' => 'index'));
+	}
+
+
+	public function continueEvaluation($taskid) {
+		$log = '';
+		
+		// load all open articles
+		$open_articles = $this->Article->find('all', array(
+			'conditions' => array(
+				'evaluated' => 0
+			)));
+
+		$log .= '<h1>' . count($open_articles).' Articles to analyse</h1>';
+
+		// keep track of the already handled brands
+		$handled_brands = array();
+
+		// create a MW api class
+		$mw = $this->getMobileWorksApi();
+		
+		// now handle each paragraph individually
+		foreach ($open_articles as $open_article) {
+			$log .= '<h4>Analysing Article <i>'.$open_article['Article']['title'].'</i></h4>';
+
+			foreach($open_article['Paragraph'] as $paragraphData) {
+		// load the paragraph with all associated data
+				$this->Article->Paragraph->read(null, $paragraphData['id']);
+
+				if(empty($this->Article->Paragraph->data['Brand'])) {
+					continue; // no associated brand
+				}
+
+
+				foreach ($this->Article->Paragraph->data['Brand'] as $brandData) {
+					// check if there is already an request for this brand
+					if(in_array($brandData['id'], $handled_brands)) {
+						continue;
+					}
+
+					$this->Article->Paragraph->Evaluation->create();
+					$this->Article->Paragraph->Evaluation->save(array(
+						'Evaluation'=>array(
+						'brand_id' => $brandData['id'],
+						'paragraph_id' => $this->Article->Paragraph->id,
+						'question' => 'Is this article mainly about '.$brandData['name'].'?',
+						'type'	   => '0' //articleTopic = 0
+					)));
+					
+					$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a></p>';
+
+
+					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');
+					array_push($handled_brands,	$brandData['id']);
+				}
+			}
+
+			// everything done for this article
+			$this->Article->id = $open_article['Article']['id'];
+			$this->Article->saveField('evaluated', 1);
+		}
+		// output log
+		$this->set('log',$log);
+	}
+
+
+	public function returnsteptwo($id) {
+		$result = json_decode(file_get_contents ('php://input'), true);
+		$rating=0;
+		foreach($result['tasks'] as $tasks) {
+			print($tasks['taskid']);
+			foreach($tasks['answer']['0'] as $results) {
+				if ($results['0']=="Yes") {
+					$rating += 1;
+				}
+				if ($results['0']=="No") {
+					$rating -= 1;
+				}
+		
+			}
+		}
+		if ($rating>0) {
+			$rating = 1;
+		} else {
+			$rating = 0;
+		}
+ 		
+		$this->Evaluation->id = $id;
+
+		$this->Evaluation->read(null,$id);
+		$this->Evaluation->data['Evaluation']['rating'] = $rating;
+
+		$this->Evaluation->saveAll($this->Evaluation->data);
+
+
+/*
 		$this->Evaluation->EvaluationResult->create();
 		$this->Evaluation->EvaluationResult->set('evaluation_id', $this->Evaluation->id);
 		$this->Evaluation->EvaluationResult->set('taskid', file_get_contents ('php://input'));
 		$this->Evaluation->EvaluationResult->save();
+*/
 		
 		return;
 

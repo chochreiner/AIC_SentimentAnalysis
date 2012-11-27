@@ -22,55 +22,44 @@ class Evaluation extends AppModel {
  * @param  MobileWorks $mobileWorksApi  A configured mobileWorksApi
  * @return void
  */
-	public function pushTask($mobileWorksApi, $redundancy, $type) {
+	public function pushTask($mobileWorksApi, $redundancy, $workflowType) {
 		$this->read(null, $this->id);
 		
 			// create a project (to get an instant callback, we need a new project for every task)
 			$p = $mobileWorksApi->Project(array(
 				'projectid' => Configure::read('version') . $this->data['Evaluation']['id'],
-				'webhooks'  => Configure::read('domain') . '/evaluations/returnResult/'.$this->data['Evaluation']['id'],
-				//'tests'     => @todo Add Test tasks here https://www.mobileworks.com/developers/parameters/#projecttests
+				'webhooks'  => Configure::read('domain') . '/evaluations/returnstepone/'.$this->data['Evaluation']['id'],
 			));
 
-			$test1 = $mobileWorksApi->Task(array(
-				//'resource'=> Configure::read('domain'),
-				'instructions' => 'Are you experienced in economies?',
-				));
-			$test1->add_field('result', 'm', array("choices"=>"Yes,No"));
-
-			$p->add_test_task($test1);
-				
-			// create the tasks
+			$taskid = Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000);															
 			$t = $mobileWorksApi->Task(array(
-				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000),
+				'taskid'       => $taskid,
+				//TODO add concrete paragraph to instruction and remove ressources
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
-				'workflow'     => $type,
+				'workflow'     => $workflowType,
 				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
 				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
 				));
 
-			// build choices
 			if($this->data['Evaluation']['type'] == Evaluation::$TYPE_ARTICLE_TOPIC) {
 				$t->add_field('result', 'm', array("choices"=>"Yes,No"));
 			} else { // titlesentiment or paragraphsentiment
 				$t->add_field('rating', 'm', array("choices"=>"-5 (Very Bad),-4,-3,-2,-1,0 (balanced),1,2,3,4,5 (Very positive)"));
+				$test1 = $mobileWorksApi->Task(array('instructions' => 'Are you experienced in economies?'));
+				$test1->add_field('result', 'm', array("choices"=>"Yes,No"));
+				$p->add_test_task($test1);
 			}
 
-			// add to project
 			$p->add_task($t);
-		
-			// push the project
 			$project_url = $p->post();
-
-			// add the task url to the evaluation record
 			$this->saveField('task_url', $project_url);
+			$this->saveField('task_id', $taskid);
 	}
-
-
-
+	
+	
 
 	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
