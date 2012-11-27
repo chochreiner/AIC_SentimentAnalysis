@@ -111,14 +111,6 @@ class ArticlesController extends AppController {
 
 		// create a MW api class
 		$mw = $this->getMobileWorksApi();
-
-		//TODO check if this is really alwys the project a5
-		$project_info = $mw->retrieve( 'http://sandbox.mobileworks.com/api/v2/project/a5/' );
-
-		
-		echo '<pre>';
-		print_r($project_info);
-		echo '</pre>';
 		
 		// now handle each paragraph individually
 		foreach ($open_articles as $open_article) {
@@ -135,30 +127,24 @@ class ArticlesController extends AppController {
 
 				foreach ($this->Article->Paragraph->data['Brand'] as $brandData) {
 					// check if there is already an request for this brand
-
-
 					if(in_array($brandData['id'], $handled_brands)) {
 						continue;
 					}
 
-					for($i=0; $i<3; $i++) {
- 
-						$this->Article->Paragraph->Evaluation->create();
-						$this->Article->Paragraph->Evaluation->save(array(
-							'Evaluation'=>array(
-							'brand_id' => $brandData['id'],
-							'paragraph_id' => $this->Article->Paragraph->id,
-							'question' => 'Is this article mainly about '.$brandData['name'].'?',
-							'type'	   => '0' //articleTopic = 0
-						)));
+					$this->Article->Paragraph->Evaluation->create();
+					$this->Article->Paragraph->Evaluation->save(array(
+						'Evaluation'=>array(
+						'brand_id' => $brandData['id'],
+						'paragraph_id' => $this->Article->Paragraph->id,
+						'question' => 'Is this article mainly about '.$brandData['name'].'?',
+						'type'	   => '0' //articleTopic = 0
+					)));
 					
-						$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.
-							'</a></p>';
+					$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a></p>';
 
 
-						$this->Article->Paragraph->Evaluation->pushTask($mw);
+					$this->Article->Paragraph->Evaluation->pushTask($mw, 3);
 
-					}
 					// keep track of handled brands
 					array_push($handled_brands,	$brandData['id']);
 				}

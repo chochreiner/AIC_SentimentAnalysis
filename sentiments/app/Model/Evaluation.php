@@ -22,7 +22,7 @@ class Evaluation extends AppModel {
  * @param  MobileWorks $mobileWorksApi  A configured mobileWorksApi
  * @return void
  */
-	public function pushTask($mobileWorksApi) {
+	public function pushTask($mobileWorksApi, $redundancy) {
 		$this->read(null, $this->id);
 		
 
@@ -48,6 +48,7 @@ class Evaluation extends AppModel {
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
 				'workflow'     => 'm',
+				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
 				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
 				));
