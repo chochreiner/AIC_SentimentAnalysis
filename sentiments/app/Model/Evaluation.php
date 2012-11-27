@@ -37,18 +37,11 @@ class Evaluation extends AppModel {
 				'instructions' => 'Are you experienced in economies?',
 				));
 		$test1->add_field('Answer', 't', array('answers'=>array('Yes')));
+
 		$p->add_test_task($test1);
 		
-// 		$test2 = $mw->Task(array("resource"=>"http://www.mybusinesscards.com/test_two.png"));
-// 		$test2->add_field("Name", "t", array("answers"=>array("Jane Doe")));
-// 		$test2->add_field("Title", "t", array("answers"=>array("CFO")));
-// 		$test2->add_field("Phone number", "p", array("answers"=>array("111-111-1111")));
-		
-		
-// 		$p->add_test_task($test2);
-		
-		
 		// create the tasks
+		//TODO add parameter for redundancy
 		for($i=0; $i<3; $i++) {
 			$t = $mobileWorksApi->Task(array(
 				'taskid'       => Configure::read('version') . $this->data['Evaluation']['id']. '-' . $i,
@@ -70,10 +63,6 @@ class Evaluation extends AppModel {
 			// add to project
 			$p->add_task($t);
 		}
-
-// 		echo '<pre>';
-// 		print_r($p);
-// 		echo '</pre>';
 		
 		// push the project
 		$project_url = $p->post();
