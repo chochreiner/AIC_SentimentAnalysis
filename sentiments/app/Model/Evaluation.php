@@ -35,7 +35,7 @@ class Evaluation extends AppModel {
 			$taskid = Configure::read('version') . $this->data['Evaluation']['id']. '-' . rand(1, 10000);															
 			$t = $mobileWorksApi->Task(array(
 				'taskid'       => $taskid,
-				'instructions' => $this->data['Evaluation']['question']."\n\n".$queryresult['0']['tblparagraphs']['text'],
+				'instructions' => $this->data['Evaluation']['question']." -- ".$queryresult['0']['tblparagraphs']['text'],
 				'workflow'     => $workflowType,
 				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2

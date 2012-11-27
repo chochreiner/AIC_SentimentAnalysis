@@ -42,7 +42,6 @@ class EvaluationsController extends AppController {
 				if ($results['0']=="No") {
 					$rating -= 1;
 				}
-		
 			}
 		}
 		if ($rating>0) {
@@ -56,71 +55,100 @@ class EvaluationsController extends AppController {
 		$this->Evaluation->read(null,$id);
 		$this->Evaluation->data['Evaluation']['rating'] = $rating;
 		$this->Evaluation->saveAll($this->Evaluation->data);
-		continueEvaluation($taskid);
+		$this->continueEvaluation($taskid, $rating);
 		
 		$this->redirect(array('action' => 'index'));
 	}
 
 
-	public function continueEvaluation($taskid) {
-		$log = '';
-		
-		// load all open articles
-		$open_articles = $this->Article->find('all', array(
-			'conditions' => array(
-				'evaluated' => 0
-			)));
-
-		$log .= '<h1>' . count($open_articles).' Articles to analyse</h1>';
-
-		// keep track of the already handled brands
-		$handled_brands = array();
-
-		// create a MW api class
-		$mw = $this->getMobileWorksApi();
-		
-		// now handle each paragraph individually
-		foreach ($open_articles as $open_article) {
-			$log .= '<h4>Analysing Article <i>'.$open_article['Article']['title'].'</i></h4>';
-
-			foreach($open_article['Paragraph'] as $paragraphData) {
-		// load the paragraph with all associated data
-				$this->Article->Paragraph->read(null, $paragraphData['id']);
-
-				if(empty($this->Article->Paragraph->data['Brand'])) {
-					continue; // no associated brand
-				}
-
-
-				foreach ($this->Article->Paragraph->data['Brand'] as $brandData) {
-					// check if there is already an request for this brand
-					if(in_array($brandData['id'], $handled_brands)) {
-						continue;
-					}
-
-					$this->Article->Paragraph->Evaluation->create();
-					$this->Article->Paragraph->Evaluation->save(array(
-						'Evaluation'=>array(
-						'brand_id' => $brandData['id'],
-						'paragraph_id' => $this->Article->Paragraph->id,
-						'question' => 'Is this article mainly about '.$brandData['name'].'?',
-						'type'	   => '0' //articleTopic = 0
-					)));
-					
-					$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a></p>';
-
-
-					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');
-					array_push($handled_brands,	$brandData['id']);
-				}
-			}
-
-			// everything done for this article
-			$this->Article->id = $open_article['Article']['id'];
-			$this->Article->saveField('evaluated', 1);
+	public function continueEvaluation($taskid, $rating) {
+		$taskid="13104-9219";
+		$rating="1";
+	
+		if ($rating=="0") {
+			$this->partlyArticle($taskid);
+		} else {
+			$this->mainlyArticle($taskid);
 		}
-		// output log
-		$this->set('log',$log);
+	}
+	
+	private function partlyArticle($taskid) {
+		$paragraph_id_query = $this->Evaluation->query("SELECT paragraph_id, brand_id FROM tblevaluations WHERE task_id =\"".$taskid."\"");
+		
+		$article_id_query = $this->Evaluation->query("SELECT article_id FROM tblparagraphs WHERE id =".$paragraph_id_query['0']['tblevaluations']['paragraph_id']);
+		$brand_name_query = $this->Evaluation->query("SELECT search_names, name FROM tblbrands WHERE id =".$paragraph_id_query['0']['tblevaluations']['brand_id']);
+
+
+		$paragraph_query = $this->Evaluation->query("SELECT * FROM tblparagraphs WHERE article_id =".$article_id_query['0']['tblparagraphs']['article_id']);
+
+		$resultTask = array();
+		foreach($paragraph_query as $paragraph) {
+			foreach(explode(",", $brand_name_query['0']['tblbrands']['search_names']) as $searchstring) {
+				if (strpos(strtolower($paragraph['tblparagraphs']['text']), $searchstring) != false) {
+					array_push($resultTask, $paragraph['tblparagraphs']['id']);
+					break;
+				}
+			}			
+		}		
+		
+		$mw = $this->getMobileWorksApi();
+		foreach($resultTask as $task) {
+			$this->Evaluation->create();
+			$this->Evaluation->save(array(
+				'Evaluation'=>array(
+				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
+				'paragraph_id' => $task,
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
+				'type'	   => '1' //paragraphTopic = 0
+			)));
+			$this->Evaluation->pushTask($mw, 3, 'm');
+		}
+	}
+	
+	
+	private function mainlyArticle($taskid) {
+		$paragraph_id_query = $this->Evaluation->query("SELECT paragraph_id, brand_id FROM tblevaluations WHERE task_id =\"".$taskid."\"");
+		
+		$article_id_query = $this->Evaluation->query("SELECT article_id FROM tblparagraphs WHERE id =".$paragraph_id_query['0']['tblevaluations']['paragraph_id']);
+		$brand_name_query = $this->Evaluation->query("SELECT search_names, name FROM tblbrands WHERE id =".$paragraph_id_query['0']['tblevaluations']['brand_id']);
+
+
+		$paragraph_query = $this->Evaluation->query("SELECT * FROM tblparagraphs WHERE article_id =".$article_id_query['0']['tblparagraphs']['article_id']);
+
+		$resultTaskEven = array();
+		$resultTaskOdd = array();
+		foreach($paragraph_query as $paragraph) {
+			if (($paragraph['tblparagraphs']['position'] % 2) === 0) {
+				array_push($resultTaskEven, $paragraph['tblparagraphs']['id']);
+			} else {
+				array_push($resultTaskOdd, $paragraph['tblparagraphs']['id']);
+			}		
+		}		
+		
+		$mw = $this->getMobileWorksApi();
+		foreach($resultTaskEven as $task) {
+			$this->Evaluation->create();
+			$this->Evaluation->save(array(
+				'Evaluation'=>array(
+				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
+				'paragraph_id' => $task,
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
+				'type'	   => '1' //paragraphTopic = 0
+			)));
+			$this->Evaluation->pushTask($mw, 3, 'm');
+		}	
+		
+		foreach($resultTaskOdd as $task) {
+			$this->Evaluation->create();
+			$this->Evaluation->save(array(
+				'Evaluation'=>array(
+				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
+				'paragraph_id' => $task,
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
+				'type'	   => '1' //paragraphTopic = 0
+			)));
+			$this->Evaluation->pushTask($mw, 3, 'm');
+		}	
 	}
 
 
