@@ -47,7 +47,7 @@ class Evaluation extends AppModel {
 				'instructions' => $this->data['Evaluation']['question'],
 				'resource'	   => Configure::read('domain') . '/evaluations/showTaskResource/'.$this->data['Evaluation']['id'],
 				'resourcetype' => 't',
-				'workflow'     => 'm',
+				'workflow'     => 's',
 				'redundancy'   => $redundancy,
 				//'payment'      => X @todo implement for Stage 2
 				// Add user blocking options https://www.mobileworks.com/developers/parameters/#blocked and below
