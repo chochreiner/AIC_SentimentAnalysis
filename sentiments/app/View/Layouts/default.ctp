@@ -46,38 +46,46 @@
     <![endif]-->
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">SentAlystics</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li ><a href="#">Dashboard</a></li>
-              <li class="active"><?php echo $this->Html->link('Sentiments Analysis Administration', '/'); ?></li>
-              <li><a href="#results">Results</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-    
 	<div id="container" class="container">
-	 <div class="row">
-	    <div class="span12">
-			<?php echo $this->Session->flash(); ?>
-
-			<?php echo $this->fetch('content'); ?>
-		</div>
-	</div>
+	    <div class="row">
+	        <div class="span12">
+	            <div class="navbar navbar-inverse">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a class="brand" href="#">SentAlystics</a>
+                            <div class="nav-collapse collapse">
+                                <ul class="nav">
+                                    <li ><?php echo $this->Html->link('Dashboard', '/dashboard'); ?></li>
+                                    <li ><?php echo $this->Html->link('Admin', '/admin'); ?></li>
+                                    <li><a href="#results">Results</a></li>
+                                </ul>
+                            </div><!--/.nav-collapse -->
+                        </div>
+                    </div>
+                </div>
+	        
+			    <?php echo $this->Session->flash(); ?>
+                <?php echo $this->fetch('content'); ?>
+		    </div>	
+	    </div>
+	
 		<hr>
 		
 		<footer>
-			&copy; 2012, Alex Macovei, Andrei Staskevich, Christoph Hochreiner, Felix Rinker, Florian Eckerstorfer, Gabor Hernadi, Roland Schütz
+		 <div class="row">
+	        <div class="span12">
+	            <div class="row">
+	                <div class="offset1 span2">
+	                SentAlytics &copy; 2012
+	                </div>
+	                <div class="9">
+	                Alex Macovei, Andrei Staskevich, Christoph Hochreiner, Felix Rinker, Florian Eckerstorfer, Gabor Hernadi, Roland Schütz
+	                </div>
+			    </div>
+            </div>
 		</footer>
 	</div>
 	<?php echo $this->element('sql_dump'); ?>

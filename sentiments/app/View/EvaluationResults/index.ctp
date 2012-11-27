@@ -1,5 +1,8 @@
-<div class="evaluationResults index">
-	<h2><?php echo __('Evaluation Results'); ?></h2>
+<div class="row">
+    <div class="span10">
+
+<div class="content_box evaluationResults index">
+	<legend><?php echo __('Evaluation Results'); ?></legend>
 	<table cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -38,12 +41,16 @@
 	?>
 	</div>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
+</div>
+    <div class="span2">
+<div class="content_box actions">
+	<legend><?php echo __('Actions'); ?></legend>
 	<ul>
 		<li><?php echo $this->Html->link(__('New Evaluation Result'), array('action' => 'add')); ?></li>
 		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
 		<li><?php echo $this->Html->link(__('Grab Results from MobileWorks'), array('controller' => 'evaluationResults', 'action' => 'grabResultsFromMW')); ?> </li>
 	</ul>
+</div>
+</div>
 </div>

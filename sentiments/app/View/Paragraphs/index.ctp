@@ -1,6 +1,19 @@
-<div class="paragraphs index">
-	<h2><?php echo __('Paragraphs'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+
+<div class=" content_box paragraphs index">
+	<legend><?php echo __('Paragraphs'); ?></legend>
+	
+	<div class="actions">
+	<ul class="actionlink">
+		<li><?php echo $this->Html->link(__('New Paragraph'), array('action' => 'add'), array('class'=>'btn')); ?></li>
+		<li><?php echo $this->Html->link(__('List Articles'), array('controller' => 'articles', 'action' => 'index'), array('class'=>'btn')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Article'), array('controller' => 'articles', 'action' => 'add'), array('class'=>'btn')); ?> </li>
+		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index'), array('class'=>'btn')); ?> </li>
+		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add'), array('class'=>'btn')); ?> </li>
+	</ul>
+    </div>
+	
+	
+	<table class=" table table-striped table-condensed table-hover" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('article_id'); ?></th>
@@ -41,14 +54,4 @@
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Paragraph'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Articles'), array('controller' => 'articles', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Article'), array('controller' => 'articles', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

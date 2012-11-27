@@ -1,5 +1,7 @@
-<div class="articles view">
-<h2><?php  echo __('Article'); ?></h2>
+<div class="row">
+<div class=" span10">
+<div class="content_box articles view">
+<legend><?php  echo __('Article'); ?></legend>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
 		<dd>
@@ -53,8 +55,11 @@
 		</dd>
 	</dl>
 </div>
+</div>
+<div class="span2">
+<div class="content_box">
 <div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
+	<legend><?php echo __('Actions'); ?></legend>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Article'), array('action' => 'edit', $article['Article']['id'])); ?> </li>
 		<li><?php echo $this->Form->postLink(__('Delete Article'), array('action' => 'delete', $article['Article']['id']), null, __('Are you sure you want to delete # %s?', $article['Article']['id'])); ?> </li>
@@ -65,7 +70,7 @@
 	</ul>
 </div>
 <div class="related">
-	<h3><?php echo __('Related Paragraphs'); ?></h3>
+	<legend><?php echo __('Rel. Parag.'); ?></legend>
 	<?php if (!empty($article['Paragraph'])): ?>
 	<table cellpadding = "0" cellspacing = "0">
 	<tr>
@@ -100,4 +105,7 @@
 			<li><?php echo $this->Html->link(__('New Paragraph'), array('controller' => 'paragraphs', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
+</div>
+</div>
+</div>
 </div>

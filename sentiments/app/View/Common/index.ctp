@@ -1,7 +1,7 @@
 <div class="row">
     <div class="span10">
         <div class="content_box companies index">
-	        <legend><?php echo __('Companies'); ?></legend>
+	        <legend><?php echo $this->fetch('title'); ?></legend>
 	        <table class="table table-striped table-condensed table-hover">
 	            <tr>
 			        <th><?php echo $this->Paginator->sort('id'); ?></th>

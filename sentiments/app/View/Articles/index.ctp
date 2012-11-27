@@ -1,6 +1,15 @@
-<div class="articles index">
-	<h2><?php echo __('Articles'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+<div class="content_box  articles index">
+	<legend><?php echo __('Articles'); ?></legend>
+	
+	<div class="actions">
+        <ul class="actionlink">
+		    <li><?php echo $this->Html->link(__('New Article'), array('action' => 'add'), array('class'=>'btn')); ?></li>
+		    <li><?php echo $this->Html->link(__('List Paragraphs'), array('controller' => 'paragraphs', 'action' => 'index'), array('class'=>'btn')); ?> </li>
+		    <li><?php echo $this->Html->link(__('New Paragraph'), array('controller' => 'paragraphs', 'action' => 'add'), array('class'=>'btn')); ?> </li>
+	    </ul>
+    </div>
+	<div class="table_box">
+	<table class="table table-striped table-condensed table-hover">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('author'); ?></th>
@@ -35,6 +44,7 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
+	</div>
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
@@ -42,19 +52,11 @@
 	));
 	?>	</p>
 
-	<div class="paging">
+	<div class="pagination">
 	<?php
 		echo $this->Paginator->prev('< ' . __('previous'), array(), null, array('class' => 'prev disabled'));
 		echo $this->Paginator->numbers(array('separator' => ''));
 		echo $this->Paginator->next(__('next') . ' >', array(), null, array('class' => 'next disabled'));
 	?>
 	</div>
-</div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
-		<li><?php echo $this->Html->link(__('New Article'), array('action' => 'add')); ?></li>
-		<li><?php echo $this->Html->link(__('List Paragraphs'), array('controller' => 'paragraphs', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Paragraph'), array('controller' => 'paragraphs', 'action' => 'add')); ?> </li>
-	</ul>
 </div>

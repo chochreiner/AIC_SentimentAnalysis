@@ -1,4 +1,6 @@
-<div class="brands view">
+<div class="row">
+    <div class="span10">
+<div class="content_box brands view">
 <h2><?php  echo __('Brand'); ?></h2>
 	<dl>
 		<dt><?php echo __('Id'); ?></dt>
@@ -33,7 +35,9 @@
 		</dd>
 	</dl>
 </div>
-<div class="actions">
+</div>
+    <div class="span2">
+<div class="content_box actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 		<li><?php echo $this->Html->link(__('Edit Brand'), array('action' => 'edit', $brand['Brand']['id'])); ?> </li>
@@ -125,4 +129,6 @@
 			<li><?php echo $this->Html->link(__('New Paragraph'), array('controller' => 'paragraphs', 'action' => 'add')); ?> </li>
 		</ul>
 	</div>
+</div>
+</div>
 </div>

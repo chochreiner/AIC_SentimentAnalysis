@@ -1,4 +1,6 @@
-<div class="evaluationResults form">
+<div class="row">
+    <div class="span10">
+<div class="content_box evaluationResults form">
 <?php echo $this->Form->create('EvaluationResult'); ?>
 	<fieldset>
 		<legend><?php echo __('Edit Evaluation Result'); ?></legend>
@@ -10,7 +12,9 @@
 	</fieldset>
 <?php echo $this->Form->end(__('Submit')); ?>
 </div>
-<div class="actions">
+</div>
+    <div class="span2">
+<div class="content_box actions">
 	<h3><?php echo __('Actions'); ?></h3>
 	<ul>
 
@@ -19,4 +23,6 @@
 		<li><?php echo $this->Html->link(__('List Evaluations'), array('controller' => 'evaluations', 'action' => 'index')); ?> </li>
 		<li><?php echo $this->Html->link(__('New Evaluation'), array('controller' => 'evaluations', 'action' => 'add')); ?> </li>
 	</ul>
+</div>
+</div>
 </div>
