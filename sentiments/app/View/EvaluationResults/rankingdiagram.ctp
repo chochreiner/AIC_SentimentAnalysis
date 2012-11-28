@@ -3,7 +3,7 @@
     $(document).ready(function() {
         chart = new Highcharts.Chart({
             chart: {
-                renderTo: 'container',
+                renderTo: 'highChartcontainer',
                 type: 'column'
             },
             title: {
