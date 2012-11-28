@@ -1,7 +1,7 @@
 <div class="content_box">
-    <legend>Grap Articles</legend>
+    <legend>Grab Articles</legend>
     <?php
 	    echo $log;
     ?>
-        <a class ="btn" href="/articles/">Back</a>
+        <a class ="btn" href="/admin/">Back</a>
 </div>
