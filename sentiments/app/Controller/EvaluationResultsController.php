@@ -7,6 +7,99 @@ App::uses('AppController', 'Controller');
  */
 class EvaluationResultsController extends AppController {
 
+
+	public function getOverviewforAllBrands() {
+		$data = $this->EvaluationResult->query("
+		SELECT b.name brand, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id 
+				GROUP BY b.name
+				ORDER by rating DESC");
+			
+			$result = array();
+			foreach($data as $item) {
+				array_push($result, array("brand" => $item['b']['brand'], "rating" => $item['0']['rating']));
+			}
+			
+			$this->set('data', $result);
+			$this->render('/Evaluations/Json/index');
+	}
+	
+	public function getResultsforOneBrand($brand) {
+		$data = $this->EvaluationResult->query("
+		SELECT r.result rating, b.name FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id AND
+				b.id=".$brand." 
+				ORDER by rating DESC");
+				
+				
+						
+			$result = array();
+			$counter = 0;
+			$name = "";
+			foreach($data as $item) {
+				array_push($result, array("rating" => $item['r']['rating']));
+				$name = $item['b']['name'];
+				$counter++;
+			}
+			
+			$result_1=array("brand" => $name, "rating" =>$result);
+			
+			$this->set('data', $result_1);
+			$this->render('/Evaluations/Json/index');
+
+	}
+	
+	public function getHotBrands($number = 3) {
+		$data = $this->EvaluationResult->query("
+		SELECT b.name brand, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id 
+				GROUP BY b.name
+				ORDER by rating DESC
+				LIMIT ".$number);
+				
+				
+						
+			$result = array();
+			foreach($data as $item) {
+				array_push($result, array("brand" => $item['b']['brand'], "rating" => $item['0']['rating']));
+			}
+			
+			$this->set('data', $result);
+			$this->render('/Evaluations/Json/index');
+	}
+	
+	public function getHotCompanies($number = 3) {
+				$data = $this->EvaluationResult->query("
+		SELECT c.name company, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b, tblcompanies c 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id AND
+				b.company_id=c.id 
+				GROUP BY c.name
+				ORDER by rating DESC
+				LIMIT ".$number);
+				
+			$result = array();
+			foreach($data as $item) {
+				array_push($result, array("company" => $item['c']['company'], "rating" => $item['0']['rating']));
+			}
+			
+			$this->set('data', $result);
+			$this->render('/Evaluations/Json/index');
+	
+	}
+	
+	
+	
+	
+
+
 	public function getAllResults($evaluationId = null) {
 		$this->EvaluationResult->recursive=0;
 
@@ -22,7 +115,7 @@ class EvaluationResultsController extends AppController {
 		$this->set('data', $data);
 		$this->render('/Evaluations/Json/index');
 		
-// 		return json_encode($data);
+ //		return json_encode($data);
 	}
 
 	

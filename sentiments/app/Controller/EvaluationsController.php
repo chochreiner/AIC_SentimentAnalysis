@@ -181,12 +181,6 @@ class EvaluationsController extends AppController {
 				'type'	   => '2'
 			)));
 			$this->Evaluation->pushTask($mw, 3, 'm');
-			
-			//paragraph (filter out author (alles kleiner als 4 wörter dumpen)
-			//Auswerten
-			//Diagram
-			//reset method --> fürht die 3 sql befehle aus
-			//Prüfen of alles implementiert
 		}	
 	}
 
