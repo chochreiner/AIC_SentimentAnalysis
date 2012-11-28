@@ -205,7 +205,7 @@ class EvaluationsController extends AppController {
 		foreach($result['tasks'] as $tasks) {
 			if ($tasks['instructions']=="Are you experienced in economies?") {
 				if (strtolower($tasks['answer']['0']['result'])=="yes") {
-					$multiplicator = 2;
+					$multiplicator = 1.5;
 				}
 				continue;
 			}
