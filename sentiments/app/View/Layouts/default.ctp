@@ -36,6 +36,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<?php
 	    echo $this->Html->script('bootstrap.min');
+	    echo $this->Html->script('highcharts');
 	?>
 	 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -57,7 +58,7 @@
                                 <ul class="nav">
                                     <li ><?php echo $this->Html->link('Dashboard', '/dashboard'); ?></li>
                                     <li ><?php echo $this->Html->link('Admin', '/admin'); ?></li>
-                                    <li><a href="#results">Results</a></li>
+                                    <li><?php echo $this->Html->link('Results', '/results'); ?></li>
                                 </ul>
                             </div><!--/.nav-collapse -->
                         </div>
