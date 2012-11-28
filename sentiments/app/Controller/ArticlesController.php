@@ -45,14 +45,14 @@ class ArticlesController extends AppController {
 				$this->set('log', '<h1>Could not load feed '.$feed.'.<br/><br />Aborted.</h1>');
 				return;
 			}
-			$log .= '<h1>Parsing feed '.$parsedFeed['title'].'</h1>';
+			$log .= '<strong>Parsing feed</strong> '.$parsedFeed['title'].'<br/>';
 
 			foreach ($parsedFeed['items'] as $index=>$articleMeta) {
 				if($lastestNumberOfArticles && $index>=$lastestNumberOfArticles) {
 					break; // latest articles are parsed
 				}
 
-				$log .= 'Parsing article "'.$articleMeta['title'].'"...<br>';
+				$log .= '<strong>Parsing article</strong> "'.$articleMeta['title'].'"...<br/>';
 				
 				if(!isset($articleMeta['guid']) || empty($articleMeta['guid'])) {
 					$log .= 'Could not read guid for article:';
@@ -77,7 +77,7 @@ class ArticlesController extends AppController {
 					$log .= '<pre>'.print_r($this->Article->invalidFields(),true).'</pre>';
 					continue;
 				} else {
-					$log .= 'Article saved.<br><br>';
+					$log .= '<strong>Article saved.</strong><br><br>';
 				}
 			}
 
@@ -104,7 +104,7 @@ class ArticlesController extends AppController {
 				'evaluated' => 0
 			)));
 
-		$log .= '<h1>' . count($open_articles).' Articles to analyse</h1>';
+		$log .= '<h4>' . count($open_articles).' Articles to analyse</h4>';
 
 		// keep track of the already handled brands
 		$handled_brands = array();
@@ -114,7 +114,7 @@ class ArticlesController extends AppController {
 		
 		// now handle each paragraph individually
 		foreach ($open_articles as $open_article) {
-			$log .= '<h4>Analysing Article <i>'.$open_article['Article']['title'].'</i></h4>';
+			$log .= '<strong>Analyzing Article</strong> <i>'.$open_article['Article']['title'].'</i><br/>';
 
 			foreach($open_article['Paragraph'] as $paragraphData) {
 		// load the paragraph with all associated data
@@ -140,7 +140,7 @@ class ArticlesController extends AppController {
 						'type'	   => '0' //articleTopic = 0
 					)));
 					
-					$log .= '<p>Creating new MobileWorks Task for question: '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a></p>';
+					$log .= '<strong>Creating new MobileWorks Task for question:</strong> '.'<a href="/evaluations/showTaskResource/'.$this->Article->Paragraph->Evaluation->id.'">' . 'Is this article mainly about '.$brandData['name'].'?'.'</a><br/>';
 
 
 					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');

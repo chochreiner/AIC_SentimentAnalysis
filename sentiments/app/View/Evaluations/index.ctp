@@ -2,7 +2,8 @@
     <div class="span10">
 <div class="content_box evaluations index">
 	<h2><?php echo __('Evaluations'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<div class="table_box">
+	<table class="table table-striped table-condensed table-hover">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('paragraph_id'); ?></th>
@@ -35,6 +36,7 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
+	</div>
 	<p>
 	<?php
 	echo $this->Paginator->counter(array(
