@@ -136,7 +136,7 @@ class ArticlesController extends AppController {
 						'Evaluation'=>array(
 						'brand_id' => $brandData['id'],
 						'paragraph_id' => $this->Article->Paragraph->id,
-						'question' => 'Is this article mainly about '.$brandData['name'].'?',
+						'question' => 'Is this article mainly about '.$brandData['name'].'? -- '.$this->Article->Paragraph->text,
 						'type'	   => '0' //articleTopic = 0
 					)));
 					

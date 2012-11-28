@@ -62,7 +62,7 @@ class EvaluationsController extends AppController {
 
 
 	public function continueEvaluation($taskid, $rating) {
-		$taskid="13104-9219";
+		$taskid="13142-4724";
 		$rating="1";
 	
 		if ($rating=="0") {
@@ -85,7 +85,7 @@ class EvaluationsController extends AppController {
 		foreach($paragraph_query as $paragraph) {
 			foreach(explode(",", $brand_name_query['0']['tblbrands']['search_names']) as $searchstring) {
 				if (strpos(strtolower($paragraph['tblparagraphs']['text']), $searchstring) != false) {
-					array_push($resultTask, $paragraph['tblparagraphs']['id']);
+					array_push($resultTask, array($paragraph['tblparagraphs']['id'], $paragraph['tblparagraphs']['text']));
 					break;
 				}
 			}			
@@ -97,9 +97,9 @@ class EvaluationsController extends AppController {
 			$this->Evaluation->save(array(
 				'Evaluation'=>array(
 				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
-				'paragraph_id' => $task,
-				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
-				'type'	   => '1' //paragraphTopic = 0
+				'paragraph_id' => $task['0'],
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].' after reading this text? -- '.$task['1'],
+				'type'	   => '2' //paragraphTopic = 0
 			)));
 			$this->Evaluation->pushTask($mw, 3, 'm');
 		}
@@ -115,25 +115,61 @@ class EvaluationsController extends AppController {
 
 		$paragraph_query = $this->Evaluation->query("SELECT * FROM tblparagraphs WHERE article_id =".$article_id_query['0']['tblparagraphs']['article_id']);
 
+		$article_query = $this->Evaluation->query("SELECT title FROM tblarticles WHERE id =".$article_id_query['0']['tblparagraphs']['article_id']);
+
+
 		$resultTaskEven = array();
 		$resultTaskOdd = array();
+		$resultTaskImportant = array();
 		foreach($paragraph_query as $paragraph) {
+			//first paragraph
+			if ($paragraph['tblparagraphs']['position'] == 0) {
+				array_push($resultTaskImportant, array($paragraph['tblparagraphs']['id'], $paragraph['tblparagraphs']['text']));
+				continue;
+			}
+			//name of author
+			if (strlen($paragraph['tblparagraphs']['text']) < 100) {
+				continue;
+			}
+			 
 			if (($paragraph['tblparagraphs']['position'] % 2) === 0) {
-				array_push($resultTaskEven, $paragraph['tblparagraphs']['id']);
+				array_push($resultTaskEven, array($paragraph['tblparagraphs']['id'], $paragraph['tblparagraphs']['text']));
 			} else {
-				array_push($resultTaskOdd, $paragraph['tblparagraphs']['id']);
+				array_push($resultTaskOdd, array($paragraph['tblparagraphs']['id'], $paragraph['tblparagraphs']['text']));
 			}		
 		}		
-		
+
 		$mw = $this->getMobileWorksApi();
+			$this->Evaluation->create();
+			$this->Evaluation->save(array(
+				'Evaluation'=>array(
+				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
+				'paragraph_id' => $article_id_query['0']['tblparagraphs']['article_id'],
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].' after reading this title? -- '.$article_query['0']['tblarticles']['title'],
+				'type'	   => '1' 
+			)));
+			$this->Evaluation->pushTask($mw, 5, 'm');
+
+		foreach($resultTaskImportant as $task) {
+			$this->Evaluation->create();
+			$this->Evaluation->save(array(
+				'Evaluation'=>array(
+				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
+				'paragraph_id' => $task['0'],
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].' after reading this text? -- '.$task['1'],
+				'type'	   => '3' 
+			)));
+			$this->Evaluation->pushTask($mw, 3, 'm');
+		}	
+		
 		foreach($resultTaskEven as $task) {
 			$this->Evaluation->create();
 			$this->Evaluation->save(array(
 				'Evaluation'=>array(
 				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
-				'paragraph_id' => $task,
-				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
-				'type'	   => '1' //paragraphTopic = 0
+				'paragraph_id' => $task['0'],
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].' after reading this text? -- '.$task['1'],
+				'type'	   => '2'
 			)));
 			$this->Evaluation->pushTask($mw, 3, 'm');
 		}	
@@ -143,51 +179,58 @@ class EvaluationsController extends AppController {
 			$this->Evaluation->save(array(
 				'Evaluation'=>array(
 				'brand_id' => $paragraph_id_query['0']['tblevaluations']['brand_id'],
-				'paragraph_id' => $task,
-				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].'?',
-				'type'	   => '1' //paragraphTopic = 0
+				'paragraph_id' => $task['0'],
+				'question' => 'How do you feel about the brand '.$brand_name_query['0']['tblbrands']['name'].' after reading this text? -- '.$task['1'],
+				'type'	   => '2'
 			)));
 			$this->Evaluation->pushTask($mw, 3, 'm');
+			
+			//paragraph (filter out author (alles kleiner als 4 wörter dumpen)
+			//Auswerten
+			//Diagram
+			//reset method --> fürht die 3 sql befehle aus
+			//Prüfen of alles implementiert
 		}	
 	}
 
 
 	public function returnsteptwo($id) {
-		$result = json_decode(file_get_contents ('php://input'), true);
-		$rating=0;
-		foreach($result['tasks'] as $tasks) {
-			print($tasks['taskid']);
-			foreach($tasks['answer']['0'] as $results) {
-				if ($results['0']=="Yes") {
-					$rating += 1;
-				}
-				if ($results['0']=="No") {
-					$rating -= 1;
-				}
-		
-			}
-		}
-		if ($rating>0) {
-			$rating = 1;
-		} else {
-			$rating = 0;
-		}
- 		
+
 		$this->Evaluation->id = $id;
 
-		$this->Evaluation->read(null,$id);
-		$this->Evaluation->data['Evaluation']['rating'] = $rating;
+		$evaluation = $this->Evaluation->query("SELECT type FROM tblevaluations WHERE id =\"".$id."\"");
+		$type = $evaluation['0']['tblevaluations']['type'];
 
-		$this->Evaluation->saveAll($this->Evaluation->data);
+		$result = json_decode(file_get_contents ('php://input'), true);
+		$multiplicator = 1;
+		$rating=0;
+		$taskid="-1";
+		foreach($result['tasks'] as $tasks) {
+			if ($tasks['instructions']=="Are you experienced in economies?") {
+				if (strtolower($tasks['answer']['0']['result'])=="yes") {
+					$multiplicator = 2;
+				}
+				continue;
+			}
+			$rating = $tasks['answer']['0']['rating'];
+			if (strlen($rating>2)) {
+				$rating = substr($rating, 0, 2);
+			}
+			$taskid=$tasks['taskid'];
+		}
 
+		switch ($type) {
+    		case 1: $rating = $multiplicator * $rating * 5; break;
+		    case 2: $rating = $multiplicator * $rating * 2; break;
+   			case 3: $rating = $multiplicator * $rating * 3; break;
+		}
 
-/*
 		$this->Evaluation->EvaluationResult->create();
 		$this->Evaluation->EvaluationResult->set('evaluation_id', $this->Evaluation->id);
-		$this->Evaluation->EvaluationResult->set('taskid', file_get_contents ('php://input'));
+		$this->Evaluation->EvaluationResult->set('taskid', $taskid);
+		$this->Evaluation->EvaluationResult->set('result', $rating);		
 		$this->Evaluation->EvaluationResult->save();
-*/
-		
+
 		return;
 
 		if (!$this->Evaluation->exists()) {
