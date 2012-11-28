@@ -3,7 +3,7 @@
 
 <div class="content_box evaluationResults index">
 	<legend><?php echo __('Evaluation Results'); ?></legend>
-	<table cellpadding="0" cellspacing="0">
+	<table class="table table-striped table-condensed table-hover">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('evaluation_id'); ?></th>
