@@ -2,6 +2,7 @@
     <div class="span10">
         <div class="content_box companies index">
 	        <legend><?php echo __('Companies'); ?></legend>
+	        <div class="table_box">
 	        <table class="table table-striped table-condensed table-hover">
 	            <tr>
 			        <th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -21,6 +22,7 @@
 	                </tr>
                     <?php endforeach; ?>
 	        </table>
+	        </div>
 	<?php echo $this->Paginator->pagination(); ?>
         </div>
     </div>

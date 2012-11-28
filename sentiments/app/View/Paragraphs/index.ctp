@@ -12,7 +12,7 @@
 	</ul>
     </div>
 	
-	
+	<div class="table_box">
 	<table class=" table table-striped table-condensed table-hover" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
@@ -40,6 +40,6 @@
 	</tr>
 <?php endforeach; ?>
 	</table>
-	
+	</div>
 	<?php echo $this->Paginator->pagination(); ?>
 </div>
