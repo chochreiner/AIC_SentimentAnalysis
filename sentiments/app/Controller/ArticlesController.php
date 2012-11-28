@@ -86,7 +86,7 @@ class ArticlesController extends AppController {
 			}
 		}
 
-		$this->set('log', $log .'<br><h1>Yayyy, geschafft :D</h1>');
+		$this->set('log', $log .'<br><h1>Fetched Article</h1>');
 	}
 
 
