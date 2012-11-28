@@ -34,10 +34,10 @@
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-	<?php
-	    echo $this->Html->script('bootstrap.min');
-	    echo $this->Html->script('highcharts');
-	?>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/highcharts.js"></script>
+	
+
 	 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
