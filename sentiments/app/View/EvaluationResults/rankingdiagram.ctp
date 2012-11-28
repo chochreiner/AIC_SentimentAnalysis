@@ -6,6 +6,9 @@
                 renderTo: 'container',
                 type: 'column'
             },
+            title: {
+                text: <?php echo $title; ?>
+            },
             xAxis: {
                 categories: ['Companies']
             },
@@ -23,4 +26,8 @@
     });
 
     </script>
+<div class="content_box">
+    <legend>Results</legend>
+   
     <div id="highChartcontainer"></div>
+ </div>

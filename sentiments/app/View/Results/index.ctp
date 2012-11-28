@@ -1,39 +1,16 @@
- <script type="text/javascript">
-     var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container',
-                type: 'column'
-            },
-            xAxis: {
-                categories: ['Companies']
-            },
-            tooltip: {
-                formatter: function() {
-                    return ''+
-                        this.series.name +': '+ this.y +'';
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            series: [{
-                name: 'John',
-                data: [-5]
-            }, {
-                name: 'Jane',
-                data: [2]
-            }, {
-                name: 'Joe',
-                data: [-13]
-            }]
-        });
-    });
-
-    </script>
 <div class="content_box">
-    <legend>Results</legend>
-   
-    <div id="highChartcontainer"></div>
- </div>
+<legend>Results</legend>
+
+
+<ul>
+	<li><a href="evaluationResults/getOverviewforAllBrands/" target="_blank">Sentiment of all Brands</a></li>
+	<li><a href="evaluationResults/getOverviewforAllBrandsDiagram/" target="_blank">Sentiment of all Brands - Diagram</a></li>
+	<li><a href="evaluationResults/getResultsforOneBrand/1" target="_blank">All Results for one Brand</a></li>
+	<li><a href="evaluationResults/getHotBrands/3/" target="_blank">Hot Brands (Top 3)</a></li>
+	<li><a href="evaluationResults/getHotBrandsDiagram/3/" target="_blank">Hot Brands (Top 3) - Diagram</a></li>
+	<li><a href="evaluationResults/getHotCompanies/3" target="_blank">Hot Companies (Top 3)</a></li>
+	<li><a href="evaluationResults/getHotCompaniesDiagram/3" target="_blank">Hot Companies (Top 3) - Diagram</a></li>
+</ul>
+</div>
+
+

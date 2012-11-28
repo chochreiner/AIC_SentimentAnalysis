@@ -8,6 +8,7 @@ App::uses('AppController', 'Controller');
 class EvaluationResultsController extends AppController {
 
 
+
 	public function getOverviewforAllBrands() {
 		$data = $this->EvaluationResult->query("
 		SELECT b.name brand, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
@@ -24,9 +25,8 @@ class EvaluationResultsController extends AppController {
 			
 			$this->set('data', $result);
 			$this->render('/Evaluations/Json/index');
-			
-			
 	}
+	
 	
 		public function getOverviewforAllBrandsDiagram() {
 		$data = $this->EvaluationResult->query("
@@ -46,6 +46,7 @@ class EvaluationResultsController extends AppController {
 			$result = $result."]";
 			
 			$this->set('data', $result);
+			$this->set('title', "'Sentiment of all Brands'");
 			$this->render('/EvaluationResults/rankingdiagram');
 			
 	}
@@ -117,6 +118,7 @@ class EvaluationResultsController extends AppController {
 			$result = $result."]";
 			
 			$this->set('data', $result);
+			$this->set('title', "'Hot Brands'");
 			$this->render('/EvaluationResults/rankingdiagram');
 			
 	}
@@ -162,6 +164,7 @@ class EvaluationResultsController extends AppController {
 			$result = $result."]";
 			
 			$this->set('data', $result);
+			$this->set('title', "'Hot Companies'");
 			$this->render('/EvaluationResults/rankingdiagram');
 			
 	}
