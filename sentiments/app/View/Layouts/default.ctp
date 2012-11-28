@@ -27,15 +27,12 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-	<?php
-		echo $this->Html->meta('icon');
-		
-        echo $this->Html->css('bootstrap.min');
-		echo $this->Html->css('bootstrap-responsive.min');
-		echo $this->Html->css('custom');
-	?>
-	
-	
+    <?php echo $this->Html->meta('icon'); ?>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/css/custom.css">
+
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 	<?php
 	    echo $this->Html->script('bootstrap.min');
@@ -66,14 +63,14 @@
                         </div>
                     </div>
                 </div>
-	        
+
 			    <?php echo $this->Session->flash(); ?>
                 <?php echo $this->fetch('content'); ?>
-		    </div>	
+		    </div>
 	    </div>
-	
+
 		<hr>
-		
+
 		<footer>
 		 <div class="row">
 	        <div class="span12">
