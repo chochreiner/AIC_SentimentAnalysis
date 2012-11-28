@@ -24,6 +24,30 @@ class EvaluationResultsController extends AppController {
 			
 			$this->set('data', $result);
 			$this->render('/Evaluations/Json/index');
+			
+			
+	}
+	
+		public function getOverviewforAllBrandsDiagram() {
+		$data = $this->EvaluationResult->query("
+		SELECT b.name brand, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id 
+				GROUP BY b.name
+				ORDER by rating DESC");
+			
+			
+			
+			$result = "[";
+			foreach($data as $item) {
+				$result = $result."{name:'".$item['b']['brand']."',data: [".$item['0']['rating']."]},";
+			}
+			$result = $result."]";
+			
+			$this->set('data', $result);
+			$this->render('/EvaluationResults/rankingdiagram');
+			
 	}
 	
 	public function getResultsforOneBrand($brand) {
@@ -55,7 +79,7 @@ class EvaluationResultsController extends AppController {
 	
 	public function getHotBrands($number = 3) {
 		$data = $this->EvaluationResult->query("
-		SELECT b.name brand, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+		SELECT b.name brand, COUNT(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
 			WHERE 
 				r.evaluation_id = e.id AND
 				e.brand_id = b.id 
@@ -74,9 +98,32 @@ class EvaluationResultsController extends AppController {
 			$this->render('/Evaluations/Json/index');
 	}
 	
+	public function getHotBrandsDiagram($number = 3) {
+		$data = $this->EvaluationResult->query("
+		SELECT b.name brand, COUNT(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id 
+				GROUP BY b.name
+				ORDER by rating DESC
+				LIMIT ".$number);
+			
+			
+			
+			$result = "[";
+			foreach($data as $item) {
+				$result = $result."{name:'".$item['b']['brand']."',data: [".$item['0']['rating']."]},";
+			}
+			$result = $result."]";
+			
+			$this->set('data', $result);
+			$this->render('/EvaluationResults/rankingdiagram');
+			
+	}
+	
 	public function getHotCompanies($number = 3) {
 				$data = $this->EvaluationResult->query("
-		SELECT c.name company, SUM(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b, tblcompanies c 
+		SELECT c.name company, COUNT(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b, tblcompanies c 
 			WHERE 
 				r.evaluation_id = e.id AND
 				e.brand_id = b.id AND
@@ -95,7 +142,29 @@ class EvaluationResultsController extends AppController {
 	
 	}
 	
-	
+		public function getHotCompaniesDiagram($number = 3) {
+				$data = $this->EvaluationResult->query("
+		SELECT c.name company, COUNT(r.result) rating FROM tblevaluations e, tblevaluation_results r, tblbrands b, tblcompanies c 
+			WHERE 
+				r.evaluation_id = e.id AND
+				e.brand_id = b.id AND
+				b.company_id=c.id 
+				GROUP BY c.name
+				ORDER by rating DESC
+				LIMIT ".$number);
+			
+			
+			
+			$result = "[";
+			foreach($data as $item) {
+				$result = $result."{name:'".$item['c']['company']."',data: [".$item['0']['rating']."]},";
+			}
+			$result = $result."]";
+			
+			$this->set('data', $result);
+			$this->render('/EvaluationResults/rankingdiagram');
+			
+	}
 	
 	
 

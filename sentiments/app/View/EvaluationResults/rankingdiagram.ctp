@@ -18,22 +18,9 @@
             credits: {
                 enabled: false
             },
-            series: [{
-                name: 'John',
-                data: [-5]
-            }, {
-                name: 'Jane',
-                data: [2]
-            }, {
-                name: 'Joe',
-                data: [-13]
-            }]
+            series: <?php echo $data; ?>
         });
     });
 
     </script>
-<div class="content_box">
-    <legend>Results</legend>
-   
     <div id="highChartcontainer"></div>
- </div>
