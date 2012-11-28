@@ -1,7 +1,7 @@
 <div class="row">
     <div class="span10">
 <div class="content_box articles form">
-<?php echo $this->Form->create('Article'); ?>
+<?php echo $this->Form->create('Article', array('class' => 'form-horizontal')); ?>
 	<fieldset>
 		<legend><?php echo __('Add Article'); ?></legend>
 	<?php
