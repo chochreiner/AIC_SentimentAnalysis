@@ -62,9 +62,6 @@ class EvaluationsController extends AppController {
 
 
 	public function continueEvaluation($taskid, $rating) {
-		$taskid="13142-4724";
-		$rating="1";
-	
 		if ($rating=="0") {
 			$this->partlyArticle($taskid);
 		} else {
