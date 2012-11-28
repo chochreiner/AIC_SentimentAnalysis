@@ -42,7 +42,7 @@ class ArticlesController extends AppController {
 		foreach ($feeds as $feed) {
 			$parsedFeed = $rssReader->get($feed);
 			if($parsedFeed == false) {
-				$this->set('log', '<h1>Could not load feed '.$feed.'.<br/><br />Aborted.</h1>');
+				$this->set('log', 'Could not load feed '.$feed.'.<br/><br />Aborted.');
 				return;
 			}
 			$log .= '<strong>Parsing feed</strong> '.$parsedFeed['title'].'<br/>';
@@ -85,8 +85,7 @@ class ArticlesController extends AppController {
 				break;
 			}
 		}
-
-		$this->set('log', $log .'<br><h1>Fetched Article</h1>');
+		$this->set('log', $log .'Fetched Article.<br><br>');
 	}
 
 
@@ -194,10 +193,14 @@ class ArticlesController extends AppController {
 		if ($this->request->is('post')) {
 			$this->Article->create();
 			if ($this->Article->save($this->request->data)) {
-				$this->Session->setFlash(__('The article has been saved'));
+				$this->Session->setFlash(__('The article has been saved'), 'alert', array(
+    'plugin' => 'TwitterBootstrap',
+    'class' => 'alert-success'));
 				$this->redirect(array('action' => 'index'));
 			} else {
-				$this->Session->setFlash(__('The article could not be saved. Please, try again.'));
+				$this->Session->setFlash(__('The article could not be saved. Please, try again.'), 'alert', array(
+    'plugin' => 'TwitterBootstrap',
+    'class' => 'alert-error'));
 			}
 		}
 	}

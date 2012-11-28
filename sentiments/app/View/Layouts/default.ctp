@@ -53,7 +53,7 @@
                             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                                 <span class="icon-bar"></span>
                             </a>
-                            <a class="brand" href="#">SentAlystics</a>
+                            <a class="brand" href="/">SentAlystics</a>
                             <div class="nav-collapse collapse">
                                 <ul class="nav">
                                     <li ><?php echo $this->Html->link('Dashboard', '/dashboard'); ?></li>
@@ -77,7 +77,7 @@
 	        <div class="span12">
 	            <div class="row">
 	                <div class="offset1 span2">
-	                SentAlytics &copy; 2012
+	                SentAlystics &copy; 2012
 	                </div>
 	                <div class="9">
 	                Alex Macovei, Andrei Staskevich, Christoph Hochreiner, Felix Rinker, Florian Eckerstorfer, Gabor Hernadi, Roland Schütz
