@@ -30,9 +30,7 @@ class EvaluationResultsController extends AppController {
 	public function getResultsByTaskId($taskid) {
 
 		$data = $this->EvaluationResult->find('all',
-
 				array('conditions' =>
-
 						array('taskid' => $taskid)));
 		if (empty($data)) {
 			throw new NotFoundException(__('Invalid evaluation result'));

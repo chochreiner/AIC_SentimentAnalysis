@@ -279,7 +279,7 @@ Cache::config('_cake_model_', array(
 
 
 
-Configure::write('domain', 'http://aic.com');
+Configure::write('domain', 'http://aic.braincrafted.com');
 Configure::write('version', '13'); // needs to be empty for test_data_full, otherwise choose your own
 
 

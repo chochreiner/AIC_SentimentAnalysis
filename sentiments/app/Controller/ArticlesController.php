@@ -114,7 +114,7 @@ class ArticlesController extends AppController {
 		
 		// now handle each paragraph individually
 		foreach ($open_articles as $open_article) {
-			$log .= '<h2>Analysing Article <i>'.$open_article['Article']['title'].'</i></h2>';
+			$log .= '<h4>Analysing Article <i>'.$open_article['Article']['title'].'</i></h4>';
 
 			foreach($open_article['Paragraph'] as $paragraphData) {
 		// load the paragraph with all associated data
@@ -136,7 +136,7 @@ class ArticlesController extends AppController {
 						'Evaluation'=>array(
 						'brand_id' => $brandData['id'],
 						'paragraph_id' => $this->Article->Paragraph->id,
-						'question' => 'Is this article mainly about '.$brandData['name'].'?',
+						'question' => 'Is this article mainly about '.$brandData['name'].'? -- '.$this->Article->Paragraph->text,
 						'type'	   => '0' //articleTopic = 0
 					)));
 					
@@ -144,8 +144,6 @@ class ArticlesController extends AppController {
 
 
 					$this->Article->Paragraph->Evaluation->pushTask($mw, 3, 's');
-
-					// keep track of handled brands
 					array_push($handled_brands,	$brandData['id']);
 				}
 			}
@@ -157,6 +155,8 @@ class ArticlesController extends AppController {
 		// output log
 		$this->set('log',$log);
 	}
+
+
 
 
 

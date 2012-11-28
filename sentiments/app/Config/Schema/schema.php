@@ -69,6 +69,7 @@ class AppSchema extends CakeSchema {
 		'brand_id' => array('type' => 'integer', 'null' => false, 'default' => null),
 		'question' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'task_url' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
+		'task_id' => array('type' => 'string', 'null' => true, 'default' => null, 'collate' => 'latin1_swedish_ci', 'charset' => 'latin1'),
 		'type' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 1, 'comment' => '0->articletopic, 1->titlesentiment, 2->paragraphsentiment'),
 		'rating' => array('type' => 'integer', 'null' => true, 'default' => null, 'length' => 1, 'comment' => 'This is the result, defined by the MobileWorks user, range -5 til +5. For not finished tasks this is null'),
 		'indexes' => array(
